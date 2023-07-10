@@ -10,6 +10,7 @@ import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/Profile';
 import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
+import Footer from './components/Footer';
 
 function App() {
   return (
@@ -44,6 +45,7 @@ function App() {
           <Route path="/profile" component={ Profile } />
           <Route path="/done-recipes" component={ DoneRecipes } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+          <Footer />
         </Switch>
       </BrowserRouter>
     </div>
