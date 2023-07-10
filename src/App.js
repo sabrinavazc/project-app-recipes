@@ -9,6 +9,7 @@ import Drinks from './pages/Drinks';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
 import Profile from './pages/Profile';
+import Footer from './components/Footer';
 
 function App(props) {
   return (
@@ -34,6 +35,7 @@ function App(props) {
           <Route path="/profile" component={ Profile } { ...props } />
           <Route path="/done-recipes" component={ DoneRecipes } { ...props } />
           <Route path="/favorite-recipes" component={ FavoriteRecipes } { ...props } />
+          <Footer />
         </Switch>
       </BrowserRouter>
     </div>
