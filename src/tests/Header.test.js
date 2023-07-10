@@ -6,6 +6,7 @@ describe('Testando o componente `<Header />`', () => {
   const profileId = 'profile-top-btn';
   const searchId = 'search-top-btn';
   const pageTitleId = 'page-title';
+  const searchBar = 'search-input';
   test('1 - Teste se o componente renderiza corretamente', () => {
     render(<Header title="Teste" />);
 
@@ -41,5 +42,28 @@ describe('Testando o componente `<Header />`', () => {
     await waitFor(() => {
       expect(window.location.pathname).toBe('/profile');
     });
+  });
+
+  test('4 - Testa se inicialmente a barra de pesquisa nao aparece na tela', () => {
+    render(<Header />);
+    const searchInput = screen.queryByTestId(searchBar);
+    expect(searchInput).toBeNull();
+  });
+
+  test('5 - Testa se quando clica no botao de pesquisa, a barra de pesquisa aparece na tela', () => {
+    render(<Header />);
+    const searchButton = screen.getByTestId(searchId);
+    fireEvent.click(searchButton);
+    const searchInput = screen.getByTestId(searchBar);
+    expect(searchInput).toBeInTheDocument();
+  });
+
+  test('6 - Testa se quando clicado no botao pela segunda vez, a barra de pesquisa desaparece', () => {
+    render(<Header />);
+    const searchButton = screen.getByTestId(searchId);
+    fireEvent.click(searchButton);
+    fireEvent.click(searchButton);
+    const searchInput = screen.queryByTestId(searchBar);
+    expect(searchInput).toBeNull();
   });
 });
