@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import search from '../images/searchIcon.svg';
@@ -6,9 +6,14 @@ import profile from '../images/profileIcon.svg';
 
 function Header({ showSearchIcon = true, title }) {
   const history = useHistory();
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const redirectToProfile = () => {
     history.push('/profile');
+  };
+
+  const handleSearchBar = () => {
+    setShowSearchBar((prevShowSearchBar) => !prevShowSearchBar);
   };
 
   return (
@@ -20,13 +25,16 @@ function Header({ showSearchIcon = true, title }) {
           data-testid="profile-top-btn"
         />
       </button>
-
-      {showSearchIcon
-      && <img
-        src={ search }
-        alt="search icon"
-        data-testid="search-top-btn"
-      />}
+      {showSearchBar && <input data-testid="search-input" type="text" />}
+      {showSearchIcon && (
+        <button onClick={ handleSearchBar }>
+          <img
+            src={ search }
+            alt="search icon"
+            data-testid="search-top-btn"
+          />
+        </button>
+      )}
       <h1 data-testid="page-title">{title}</h1>
     </div>
   );
