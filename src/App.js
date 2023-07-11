@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import './App.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -11,44 +11,59 @@ import Profile from './pages/Profile';
 import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
 import Footer from './components/Footer';
+import RecipeContext from './context/RecipeContext';
 
 function App() {
+  const [meals, setMeals] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+
+  const recipeContextValue = useMemo(() => ({
+    meals,
+    setMeals,
+    drinks,
+    setDrinks,
+  }), [meals, setMeals, drinks, setDrinks]);
+
   return (
-    <div className="meals">
-      <BrowserRouter>
-        <Switch>
-          <Route exact path="/" component={ Login } />
-          <Route exact path="/meals" component={ Meals } />
-          <Route
-            exact
-            path="/meals/:id"
-            component={ RecipeDetails }
+    <RecipeContext.Provider
+      value={ recipeContextValue }
+    >
+      <div className="meals">
+        <BrowserRouter>
+          <Switch>
+            <Route exact path="/" component={ Login } />
+            <Route exact path="/meals" component={ Meals } />
+            <Route
+              exact
+              path="/meals/:id"
+              component={ RecipeDetails }
 
-          />
-          <Route
-            path="/meals/:id/in-progress"
-            component={ RecipeInProgress }
+            />
+            <Route
+              path="/meals/:id/in-progress"
+              component={ RecipeInProgress }
 
-          />
-          <Route exact path="/drinks" component={ Drinks } />
-          <Route
-            exact
-            path="/drinks/:id"
-            component={ RecipeDetails }
+            />
+            <Route exact path="/drinks" component={ Drinks } />
+            <Route
+              exact
+              path="/drinks/:id"
+              component={ RecipeDetails }
 
-          />
-          <Route
-            path="/drinks/:id/in-progress"
-            component={ RecipeInProgress }
+            />
+            <Route
+              path="/drinks/:id/in-progress"
+              component={ RecipeInProgress }
 
-          />
-          <Route path="/profile" component={ Profile } />
-          <Route path="/done-recipes" component={ DoneRecipes } />
-          <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-          <Footer />
-        </Switch>
-      </BrowserRouter>
-    </div>
+            />
+            <Route path="/profile" component={ Profile } />
+            <Route path="/done-recipes" component={ DoneRecipes } />
+            <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+            <Footer />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </RecipeContext.Provider>
   );
 }
 

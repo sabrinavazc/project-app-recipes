@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import {
@@ -9,8 +9,10 @@ import {
   getDrinkByIngredient,
   getDrinkByFirstLetter,
   getDrinkByName } from '../services/drink-service';
+import RecipeContext from '../context/RecipeContext';
 
 function SearchBar({ isMeals = true }) {
+  const { setMeals, setDrinks } = useContext(RecipeContext);
   const history = useHistory();
   const [searchType, setSearchType] = useState('ingredient');
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,11 +21,15 @@ function SearchBar({ isMeals = true }) {
   const handleData = (data) => {
     console.log(data);
     if (isMeals) {
+      setMeals(data);
       if (data.length === 1) {
         history.push(`/meals/${data[0].idMeal}`);
       }
-    } else if (data.length === 1) {
-      history.push(`/drinks/${data[0].idDrink}`);
+    } else {
+      setDrinks(data);
+      if (data.length === 1) {
+        history.push(`/drinks/${data[0].idDrink}`);
+      }
     }
   };
 

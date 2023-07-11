@@ -8,6 +8,7 @@ import {
   getDrinkByIngredient,
   getDrinkByFirstLetter,
   getDrinkByName } from '../services/drink-service';
+import RecipeContext from '../context/RecipeContext';
 
 jest.mock('../services/food-service', () => ({
   getFoodByIngredient: jest.fn(),
@@ -31,7 +32,21 @@ describe('Testando o componente "<SearchBar />"', () => {
   afterEach(() => jest.clearAllMocks());
 
   test('1 - Teste se o componente renderiza corretamente', () => {
-    render(<SearchBar />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
 
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
@@ -57,7 +72,21 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getFoodByIngredient.mockResolvedValue(mockData);
 
-    render(<SearchBar />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const ingredientRadio = screen.getByTestId(ingredientRadioId);
@@ -82,8 +111,22 @@ describe('Testando o componente "<SearchBar />"', () => {
       },
     ];
     getFoodByName.mockResolvedValue(mockData);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
 
-    render(<SearchBar />);
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
+
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const nameRadioButton = screen.getByTestId(nameRadioId);
@@ -109,7 +152,21 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getFoodByFirstLetter.mockResolvedValue(mockData);
 
-    render(<SearchBar />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const firstLetterRadio = screen.getByTestId(firstLetterRadioId);
@@ -135,7 +192,21 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getFoodByFirstLetter.mockResolvedValue(mockData);
 
-    render(<SearchBar />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const firstLetterRadio = screen.getByTestId(firstLetterRadioId);
@@ -162,8 +233,22 @@ describe('Testando o componente "<SearchBar />"', () => {
       },
     ];
     getDrinkByIngredient.mockResolvedValue(mockData);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
 
-    render(<SearchBar isMeals={ false } />);
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar isMeals={ false } />
+      </RecipeContext.Provider>,
+    );
+
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const ingredientRadio = screen.getByTestId(ingredientRadioId);
@@ -189,7 +274,21 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getDrinkByName.mockResolvedValue(mockData);
 
-    render(<SearchBar isMeals={ false } />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar isMeals={ false } />
+      </RecipeContext.Provider>,
+    );
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const nameRadio = screen.getByTestId(nameRadioId);
@@ -215,7 +314,21 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getDrinkByFirstLetter.mockResolvedValue(mockData);
 
-    render(<SearchBar isMeals={ false } />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar isMeals={ false } />
+      </RecipeContext.Provider>,
+    );
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const firstLetterRadio = screen.getByTestId(firstLetterRadioId);
@@ -241,7 +354,22 @@ describe('Testando o componente "<SearchBar />"', () => {
     ];
     getDrinkByFirstLetter.mockResolvedValue(mockData);
 
-    render(<SearchBar isMeals={ false } />);
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar isMeals={ false } />
+      </RecipeContext.Provider>,
+    );
+
     const searchInput = screen.getByTestId(searchId);
     const searchButton = screen.getByTestId(searchBtnId);
     const firstLetterRadio = screen.getByTestId(firstLetterRadioId);
