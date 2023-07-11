@@ -26,7 +26,7 @@ function Header({ showSearchIcon = true, title }) {
           data-testid="profile-top-btn"
         />
       </button>
-      {showSearchBar && (<SearchBar />)}
+      {showSearchBar && (<SearchBar isMeals={ title !== 'Drinks' } />)}
       {showSearchIcon && (
         <button onClick={ handleSearchBar }>
           <img

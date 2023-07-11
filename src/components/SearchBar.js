@@ -1,30 +1,65 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import {
   getFoodByIngredient,
   getFoodByFirstLetter,
   getFoodByName } from '../services/food-service';
+import {
+  getDrinkByIngredient,
+  getDrinkByFirstLetter,
+  getDrinkByName } from '../services/drink-service';
 
-function SearchBar() {
+function SearchBar({ isMeals = true }) {
   const [searchType, setSearchType] = useState('ingredient');
   const [searchTerm, setSearchTerm] = useState('');
+  const searchTypes = ['ingredient', 'name', 'first-letter'];
 
-  const handleSearchClick = () => {
-    if (searchType === 'ingredient') {
+  const searchMeals = () => {
+    if (searchType === searchTypes[0]) {
       getFoodByIngredient(searchTerm)
         .then((data) => console.log(data));
     }
 
-    if (searchType === 'name') {
+    if (searchType === searchTypes[1]) {
       getFoodByName(searchTerm)
         .then((data) => console.log(data));
     }
 
-    if (searchType === 'first-letter') {
+    if (searchType === searchTypes[2]) {
+      console.log(searchTerm);
       if (searchTerm.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }
       getFoodByFirstLetter(searchTerm)
         .then((data) => console.log(data));
+    }
+  };
+
+  const searchDrinks = () => {
+    if (searchType === searchTypes[0]) {
+      getDrinkByIngredient(searchTerm)
+        .then((data) => console.log(data));
+    }
+
+    if (searchType === searchTypes[1]) {
+      getDrinkByName(searchTerm)
+        .then((data) => console.log(data));
+    }
+
+    if (searchType === searchTypes[2]) {
+      if (searchTerm.length > 1) {
+        return global.alert('Your search must have only 1 (one) character');
+      }
+      getDrinkByFirstLetter(searchTerm)
+        .then((data) => console.log(data));
+    }
+  };
+
+  const handleSearchClick = () => {
+    if (isMeals) {
+      searchMeals();
+    } else {
+      searchDrinks();
     }
   };
 
@@ -68,5 +103,9 @@ function SearchBar() {
     </div>
   );
 }
+
+SearchBar.propTypes = {
+  isMeals: PropTypes.bool,
+};
 
 export default SearchBar;
