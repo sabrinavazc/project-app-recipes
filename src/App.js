@@ -12,6 +12,7 @@ import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
 import Footer from './components/Footer';
 import RecipeContext from './context/RecipeContext';
+import Recipes from './components/Recipes';
 
 function App() {
   const [meals, setMeals] = useState([]);
@@ -59,6 +60,7 @@ function App() {
             <Route path="/profile" component={ Profile } />
             <Route path="/done-recipes" component={ DoneRecipes } />
             <Route path="/favorite-recipes" component={ FavoriteRecipes } />
+            <Recipes />
             <Footer />
           </Switch>
         </BrowserRouter>
