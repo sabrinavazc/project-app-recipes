@@ -19,16 +19,21 @@ function SearchBar({ isMeals = true }) {
   const searchTypes = ['ingredient', 'name', 'first-letter'];
 
   const handleData = (data) => {
-    console.log(data);
+    const recipes = data ?? [];
     if (isMeals) {
-      setMeals(data);
-      if (data.length === 1) {
-        history.push(`/meals/${data[0].idMeal}`);
+      setMeals(recipes);
+
+      if (recipes.length === 1) {
+        history.push(`/meals/${recipes[0].idMeal}`);
+      } else if (recipes.length === 0) {
+        return global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     } else {
-      setDrinks(data);
-      if (data.length === 1) {
-        history.push(`/drinks/${data[0].idDrink}`);
+      setDrinks(recipes);
+      if (recipes.length === 1) {
+        history.push(`/drinks/${recipes[0].idDrink}`);
+      } else if (recipes.length === 0) {
+        return global.alert('Sorry, we haven\'t found any recipes for these filters.');
       }
     }
   };
@@ -45,7 +50,6 @@ function SearchBar({ isMeals = true }) {
     }
 
     if (searchType === searchTypes[2]) {
-      console.log(searchTerm);
       if (searchTerm.length > 1) {
         return global.alert('Your search must have only 1 (one) character');
       }

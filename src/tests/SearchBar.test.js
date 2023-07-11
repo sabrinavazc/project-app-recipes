@@ -1,4 +1,5 @@
-import { act, fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { BrowserRouter } from 'react-router-dom';
 import SearchBar from '../components/SearchBar';
 import {
   getFoodByIngredient,
@@ -384,5 +385,163 @@ describe('Testando o componente "<SearchBar />"', () => {
 
     expect(getDrinkByFirstLetter).not.toHaveBeenCalled();
     expect(window.alert).toHaveBeenCalled();
+  });
+
+  test('10 - [Drinks] Testa se quando a busca retorna apenas uma receita, redireciona para a tela de detalhes', async () => {
+    const mockData = [
+      {
+        idDrink: '178332',
+      },
+    ];
+    getDrinkByName.mockResolvedValue(mockData);
+
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <BrowserRouter>
+          <SearchBar isMeals={ false } />
+        </BrowserRouter>
+      </RecipeContext.Provider>,
+    );
+
+    const searchInput = screen.getByTestId(searchId);
+    const searchButton = screen.getByTestId(searchBtnId);
+    const nameRadioButton = screen.getByTestId(nameRadioId);
+
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'water' } });
+      fireEvent.click(nameRadioButton);
+      fireEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/drinks/178332');
+    });
+  });
+
+  test('11 - [Meals] Testa se quando a busca retorna apenas uma receita, redireciona para a tela de detalhes', async () => {
+    const mockData = [
+      {
+        idMeal: '529608',
+      },
+    ];
+    getFoodByName.mockResolvedValue(mockData);
+
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <BrowserRouter>
+          <SearchBar />
+        </BrowserRouter>
+      </RecipeContext.Provider>,
+    );
+
+    const searchInput = screen.getByTestId(searchId);
+    const searchButton = screen.getByTestId(searchBtnId);
+    const nameRadioButton = screen.getByTestId(nameRadioId);
+
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'rice' } });
+      fireEvent.click(nameRadioButton);
+      fireEvent.click(searchButton);
+    });
+
+    await waitFor(() => {
+      expect(window.location.pathname).toBe('/meals/529608');
+    });
+  });
+
+  test('12 - [Drinks] Teste se quando nao retorna nenhuma receita, lança um alert', async () => {
+    const mockData = null;
+    getDrinkByName.mockResolvedValue(mockData);
+
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar isMeals={ false } />
+      </RecipeContext.Provider>,
+    );
+
+    const searchInput = screen.getByTestId(searchId);
+    const searchButton = screen.getByTestId(searchBtnId);
+    const nameRadioButton = screen.getByTestId(nameRadioId);
+
+    jest.spyOn(global, 'alert').mockImplementation(() => {});
+
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'xablau' } });
+      fireEvent.click(nameRadioButton);
+      fireEvent.click(searchButton);
+    });
+
+    expect(getDrinkByName).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(global.alert).toHaveBeenCalled();
+    });
+  });
+
+  test('13 - [Meals] Teste se quando nao retorna nenhuma receita, lança um alert', async () => {
+    const mockData = null;
+    getFoodByName.mockResolvedValue(mockData);
+
+    const setMealsMock = jest.fn();
+    const setDrinksMock = jest.fn();
+
+    const recipeContextValue = {
+      meals: [],
+      setMeals: setMealsMock,
+      drinks: [],
+      setDrinks: setDrinksMock,
+    };
+
+    render(
+      <RecipeContext.Provider value={ recipeContextValue }>
+        <SearchBar />
+      </RecipeContext.Provider>,
+    );
+
+    const searchInput = screen.getByTestId(searchId);
+    const searchButton = screen.getByTestId(searchBtnId);
+    const nameRadioButton = screen.getByTestId(nameRadioId);
+
+    jest.spyOn(global, 'alert').mockImplementation(() => {});
+
+    act(() => {
+      fireEvent.change(searchInput, { target: { value: 'xablau' } });
+      fireEvent.click(nameRadioButton);
+      fireEvent.click(searchButton);
+    });
+
+    expect(getFoodByName).toHaveBeenCalled();
+    await waitFor(() => {
+      expect(global.alert).toHaveBeenCalled();
+    });
   });
 });
