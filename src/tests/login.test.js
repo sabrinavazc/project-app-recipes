@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import Login from '../components/Login';
+import Login from '../pages/Login';
 
 const email = 'email-input';
 const senha = 'password-input';
