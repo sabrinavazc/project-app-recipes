@@ -45,13 +45,13 @@ describe('Testando o componente `<Header />`', () => {
   });
 
   test('4 - Testa se inicialmente a barra de pesquisa nao aparece na tela', () => {
-    render(<Header />);
+    render(<Header title="Teste" />);
     const searchInput = screen.queryByTestId(searchBar);
     expect(searchInput).toBeNull();
   });
 
   test('5 - Testa se quando clica no botao de pesquisa, a barra de pesquisa aparece na tela', () => {
-    render(<Header />);
+    render(<Header title="Teste" />);
     const searchButton = screen.getByTestId(searchId);
     fireEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchBar);
@@ -59,7 +59,7 @@ describe('Testando o componente `<Header />`', () => {
   });
 
   test('6 - Testa se quando clicado no botao pela segunda vez, a barra de pesquisa desaparece', () => {
-    render(<Header />);
+    render(<Header title="Test" />);
     const searchButton = screen.getByTestId(searchId);
     fireEvent.click(searchButton);
     fireEvent.click(searchButton);
