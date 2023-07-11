@@ -47,7 +47,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('2 - [Meals] Teste se realiza as buscas por ingredientes', () => {
-    const mockData = { ingredient: 'chicken' };
+    const mockData = [
+      {
+        idMeal: '52968',
+      },
+      {
+        idMeal: '52977',
+      },
+    ];
     getFoodByIngredient.mockResolvedValue(mockData);
 
     render(<SearchBar />);
@@ -66,7 +73,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('3 - [Meals] Teste se realiza as buscas por name', () => {
-    const mockData = { name: 'rice' };
+    const mockData = [
+      {
+        idMeal: '52968',
+      },
+      {
+        idMeal: '52977',
+      },
+    ];
     getFoodByName.mockResolvedValue(mockData);
 
     render(<SearchBar />);
@@ -85,7 +99,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('4 - [Meals] Teste se realiza as buscas pela primeira letra', () => {
-    const mockData = { firstLetter: 'A' };
+    const mockData = [
+      {
+        idMeal: '52968',
+      },
+      {
+        idMeal: '52977',
+      },
+    ];
     getFoodByFirstLetter.mockResolvedValue(mockData);
 
     render(<SearchBar />);
@@ -104,7 +125,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('5 - [Meals] Teste se não realiza as buscas pela primeira letra quando digitado mais de uma letra e lança um alert', () => {
-    const mockData = { firstLetter: 'A' };
+    const mockData = [
+      {
+        idMeal: '52968',
+      },
+      {
+        idMeal: '52977',
+      },
+    ];
     getFoodByFirstLetter.mockResolvedValue(mockData);
 
     render(<SearchBar />);
@@ -125,7 +153,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('6 - [Drinks] Teste se realiza as buscas por ingredientes', () => {
-    const mockData = { ingredient: 'water' };
+    const mockData = [
+      {
+        idDrink: '12518',
+      },
+      {
+        idDrink: '12538',
+      },
+    ];
     getDrinkByIngredient.mockResolvedValue(mockData);
 
     render(<SearchBar isMeals={ false } />);
@@ -144,7 +179,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('7 - [Drinks] Teste se realiza as buscas por name', () => {
-    const mockData = { name: 'water' };
+    const mockData = [
+      {
+        idDrink: '12518',
+      },
+      {
+        idDrink: '12538',
+      },
+    ];
     getDrinkByName.mockResolvedValue(mockData);
 
     render(<SearchBar isMeals={ false } />);
@@ -163,7 +205,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('8 - [Drinks] Teste se realiza as buscas pela primeira letra', () => {
-    const mockData = { firstLetter: 'A' };
+    const mockData = [
+      {
+        idDrink: '12518',
+      },
+      {
+        idDrink: '12538',
+      },
+    ];
     getDrinkByFirstLetter.mockResolvedValue(mockData);
 
     render(<SearchBar isMeals={ false } />);
@@ -182,7 +231,14 @@ describe('Testando o componente "<SearchBar />"', () => {
   });
 
   test('9 - [Drinks] Teste se não realiza as buscas pela primeira letra quando digitado mais de uma letra e lança um alert', () => {
-    const mockData = { firstLetter: 'A' };
+    const mockData = [
+      {
+        idDrink: '12518',
+      },
+      {
+        idDrink: '12538',
+      },
+    ];
     getDrinkByFirstLetter.mockResolvedValue(mockData);
 
     render(<SearchBar isMeals={ false } />);

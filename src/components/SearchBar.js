@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import {
   getFoodByIngredient,
   getFoodByFirstLetter,
@@ -10,19 +11,31 @@ import {
   getDrinkByName } from '../services/drink-service';
 
 function SearchBar({ isMeals = true }) {
+  const history = useHistory();
   const [searchType, setSearchType] = useState('ingredient');
   const [searchTerm, setSearchTerm] = useState('');
   const searchTypes = ['ingredient', 'name', 'first-letter'];
 
+  const handleData = (data) => {
+    console.log(data);
+    if (isMeals) {
+      if (data.length === 1) {
+        history.push(`/meals/${data[0].idMeal}`);
+      }
+    } else if (data.length === 1) {
+      history.push(`/drinks/${data[0].idDrink}`);
+    }
+  };
+
   const searchMeals = () => {
     if (searchType === searchTypes[0]) {
       getFoodByIngredient(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
 
     if (searchType === searchTypes[1]) {
       getFoodByName(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
 
     if (searchType === searchTypes[2]) {
@@ -31,19 +44,19 @@ function SearchBar({ isMeals = true }) {
         return global.alert('Your search must have only 1 (one) character');
       }
       getFoodByFirstLetter(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
   };
 
   const searchDrinks = () => {
     if (searchType === searchTypes[0]) {
       getDrinkByIngredient(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
 
     if (searchType === searchTypes[1]) {
       getDrinkByName(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
 
     if (searchType === searchTypes[2]) {
@@ -51,7 +64,7 @@ function SearchBar({ isMeals = true }) {
         return global.alert('Your search must have only 1 (one) character');
       }
       getDrinkByFirstLetter(searchTerm)
-        .then((data) => console.log(data));
+        .then((data) => handleData(data));
     }
   };
 
