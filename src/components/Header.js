@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router-dom';
 import search from '../images/searchIcon.svg';
 import profile from '../images/profileIcon.svg';
+import SearchBar from './SearchBar';
 
 function Header({ showSearchIcon = true, title }) {
   const history = useHistory();
@@ -25,7 +26,7 @@ function Header({ showSearchIcon = true, title }) {
           data-testid="profile-top-btn"
         />
       </button>
-      {showSearchBar && <input data-testid="search-input" type="text" />}
+      {showSearchBar && (<SearchBar />)}
       {showSearchIcon && (
         <button onClick={ handleSearchBar }>
           <img
