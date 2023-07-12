@@ -21,20 +21,14 @@ function Login() {
     history.push('/meals');
   };
 
-  /*   const re = /\S+@\S+\.\S+/;
- return re.test(email);
-  const six = 6;
-  const condition = re.test(email) && password.length >= six; */
+  const validationEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(email);
+  const validationPassword = /.{7,}/.test(password);
 
-  const validationEmail = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g.test(loginData.email);
-  const validationPassword = /.{7,}/.test(password.password);
-  const condition = !(validationEmail && validationPassword);
+  const isConditionValid = validationEmail && validationPassword;
 
   return (
     <>
-      <form
-        onSubmit={ handleSubmit }
-      >
+      <form onSubmit={ handleSubmit }>
         <input
           type="email"
           value={ email }
@@ -51,14 +45,13 @@ function Login() {
         />
         <button
           type="submit"
-          disabled={ !condition }
+          disabled={ !isConditionValid }
           data-testid="login-submit-btn"
         >
           Enter
         </button>
       </form>
       <Footer />
-
     </>
   );
 }
