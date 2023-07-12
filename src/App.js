@@ -16,13 +16,21 @@ import RecipeContext from './context/RecipeContext';
 function App() {
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [error, setError] = useState('');
 
   const recipeContextValue = useMemo(() => ({
     meals,
     setMeals,
     drinks,
     setDrinks,
-  }), [meals, setMeals, drinks, setDrinks]);
+    error,
+    setError,
+  }), [meals,
+    setMeals,
+    drinks,
+    setDrinks,
+    error,
+    setError]);
 
   return (
     <RecipeContext.Provider
