@@ -1,12 +1,21 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipeContext from '../context/RecipeContext';
 
 function Meals() {
   const MAX_LENGTH = 12;
-  const { meals } = useContext(RecipeContext);
+  const { meals, setMeals } = useContext(RecipeContext);
+
+  useEffect(() => {
+    const fetchMeals = async () => {
+      const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+      const data = await response.json();
+      setMeals(data.meals.slice(0, MAX_LENGTH));
+    };
+    fetchMeals();
+  }, [setMeals]);
 
   return (
     <div>

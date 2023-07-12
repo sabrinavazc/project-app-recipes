@@ -12,18 +12,25 @@ import RecipeDetails from './pages/RecipeDetails';
 import RecipeInProgress from './pages/RecipeInProgress';
 import Footer from './components/Footer';
 import RecipeContext from './context/RecipeContext';
-import Recipes from './components/Recipes';
 
 function App() {
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
+  const [error, setError] = useState('');
 
   const recipeContextValue = useMemo(() => ({
     meals,
     setMeals,
     drinks,
     setDrinks,
-  }), [meals, setMeals, drinks, setDrinks]);
+    error,
+    setError,
+  }), [meals,
+    setMeals,
+    drinks,
+    setDrinks,
+    error,
+    setError]);
 
   return (
     <RecipeContext.Provider
@@ -60,7 +67,6 @@ function App() {
             <Route path="/profile" component={ Profile } />
             <Route path="/done-recipes" component={ DoneRecipes } />
             <Route path="/favorite-recipes" component={ FavoriteRecipes } />
-            <Recipes />
             <Footer />
           </Switch>
         </BrowserRouter>
