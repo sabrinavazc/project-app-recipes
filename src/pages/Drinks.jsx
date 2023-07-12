@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipeContext from '../context/RecipeContext';
@@ -26,12 +27,14 @@ function Drinks() {
           data-testid={ `${index}-recipe-card` }
           style={ { display: 'flex' } }
         >
-          <img
-            data-testid={ `${index}-card-img` }
-            src={ drink.strDrinkThumb }
-            alt={ drink.strDrink }
-            style={ { width: '50px' } }
-          />
+          <Link to="/drinks/:id">
+            <img
+              data-testid={ `${index}-card-img` }
+              src={ drink.strDrinkThumb }
+              alt={ drink.strDrink }
+              style={ { width: '50px' } }
+            />
+          </Link>
           <h1 data-testid={ `${index}-card-name` }>{drink.strDrink}</h1>
         </div>
       ))}
