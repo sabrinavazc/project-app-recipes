@@ -1,11 +1,20 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipeContext from '../context/RecipeContext';
 
 function Drinks() {
   const MAX_LENGTH = 12;
-  const { drinks } = useContext(RecipeContext);
+  const { drinks, setDrinks } = useContext(RecipeContext);
+
+  useEffect(() => {
+    const fetchDrinks = async () => {
+      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+      const data = await response.json();
+      setDrinks(data.drinks.slice(0, MAX_LENGTH));
+    };
+    fetchDrinks();
+  }, [setDrinks]);
 
   return (
     <div>
