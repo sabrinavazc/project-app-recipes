@@ -15,3 +15,9 @@ export function getDrinkByIngredient(ingredient) {
     .then((response) => response.json())
     .then((data) => data.drinks);
 }
+
+export function getAllDrinks() {
+  return fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=')
+    .then((response) => response.json())
+    .then((data) => data.drinks);
+}

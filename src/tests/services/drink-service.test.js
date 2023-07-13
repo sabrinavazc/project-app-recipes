@@ -1,7 +1,9 @@
 import {
   getDrinkByName,
   getDrinkByFirstLetter,
-  getDrinkByIngredient } from '../../services/drink-service';
+  getDrinkByIngredient,
+  getAllDrinks,
+} from '../../services/drink-service';
 
 describe('Testando o Service: "drink-service"', () => {
   test('1 - Testa se realiza o fetch na API de Drinks passando o nome', async () => {
@@ -44,6 +46,22 @@ describe('Testando o Service: "drink-service"', () => {
     });
 
     const result = await getDrinkByIngredient(ingredient);
+
+    expect(global.fetch).toHaveBeenCalledWith(expectedUrl);
+    expect(result).toEqual(mockDrinks);
+  });
+});
+
+describe('Continuação Testando o Service: "drink-service"', () => {
+  test('4- Testando se a função getAllDrinks retorna todos os drinks', async () => {
+    const expectedUrl = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    const mockDrinks = [{ id: 1, name: 'Vodka Soda' }, { id: 2, name: 'Vodka Martini' }];
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({ drinks: mockDrinks }),
+    });
+
+    const result = await getAllDrinks();
 
     expect(global.fetch).toHaveBeenCalledWith(expectedUrl);
     expect(result).toEqual(mockDrinks);

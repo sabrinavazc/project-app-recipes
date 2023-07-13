@@ -1,43 +1,34 @@
 import React, { useContext, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipeContext from '../context/RecipeContext';
+import Recipes from '../components/Recipes';
+import { getAllDrinks } from '../services/drink-service';
 
 function Drinks() {
   const MAX_LENGTH = 12;
   const { drinks, setDrinks } = useContext(RecipeContext);
 
   useEffect(() => {
-    const fetchDrinks = async () => {
-      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const data = await response.json();
-      setDrinks(data.drinks.slice(0, MAX_LENGTH));
-    };
-    fetchDrinks();
+    getAllDrinks()
+      .then((data) => setDrinks(data.slice(0, MAX_LENGTH)));
   }, [setDrinks]);
 
   return (
-    <div>
+    <div
+      style={ { display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        width: '100%' } }
+    >
       <Header title="Drinks" />
       <h1>Drinks</h1>
-      {drinks?.slice(0, MAX_LENGTH).map((drink, index) => (
-        <div
-          key={ index }
-          data-testid={ `${index}-recipe-card` }
-          style={ { display: 'flex' } }
-        >
-          <Link to="/drinks/:id">
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ drink.strDrinkThumb }
-              alt={ drink.strDrink }
-              style={ { width: '50px' } }
-            />
-          </Link>
-          <h1 data-testid={ `${index}-card-name` }>{drink.strDrink}</h1>
-        </div>
-      ))}
+      <div style={ { display: 'flex', width: '90%', flexWrap: 'wrap' } }>
+
+        {drinks?.slice(0, MAX_LENGTH).map((drink, index) => (
+          <Recipes key={ drink.id } isMeals={ false } recipe={ drink } index={ index } />
+        ))}
+      </div>
       <Footer />
     </div>
   );

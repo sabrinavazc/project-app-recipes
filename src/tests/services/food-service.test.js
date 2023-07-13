@@ -1,7 +1,8 @@
 import {
   getFoodByName,
   getFoodByFirstLetter,
-  getFoodByIngredient } from '../../services/food-service';
+  getFoodByIngredient,
+  getAllFoods } from '../../services/food-service';
 
 describe('Testando o Service: "foodo-service"', () => {
   test('1 - Testa se busca as comidas  na API pelo nome', async () => {
@@ -44,6 +45,22 @@ describe('Testando o Service: "foodo-service"', () => {
     });
 
     const resultado = await getFoodByIngredient(ingrediente);
+
+    expect(global.fetch).toHaveBeenCalledWith(urlEsperada);
+    expect(resultado).toEqual(comidasMock);
+  });
+});
+
+describe('Continuação Testando o Service: "food-service"', () => {
+  test('4 - Testa se a função getAllFood tras todas comidas', async () => {
+    const urlEsperada = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    const comidasMock = [{ id: 1, nome: 'Lasanha de Queijo' }, { id: 2, nome: 'Sanduíche de Queijo' }];
+
+    global.fetch = jest.fn().mockResolvedValue({
+      json: jest.fn().mockResolvedValue({ meals: comidasMock }),
+    });
+
+    const resultado = await getAllFoods();
 
     expect(global.fetch).toHaveBeenCalledWith(urlEsperada);
     expect(resultado).toEqual(comidasMock);
