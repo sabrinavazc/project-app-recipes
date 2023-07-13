@@ -5,7 +5,7 @@ import Header from '../components/Header';
 
 function Profile() {
   const history = useHistory();
-  const getUser = JSON.parse(localStorage.getItem('user'));
+  const getUser = JSON.parse(localStorage.getItem('user')) ?? { email: '' };
   const { email } = getUser;
 
   const redirectDoneRecipes = () => {
