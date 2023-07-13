@@ -10,13 +10,20 @@ function RecipeInProgress() {
 
   useEffect(() => {
     const fetchRecipeInProgress = async () => {
-      const response = await fetch(
-        location.pathname.includes('meals')
-          ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
-          : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
-      );
-      const data = await response.json();
-      setRecipeInProgress(data.meals?.[0] || data.drinks?.[0]);
+      try {
+        const response = await fetch(
+          location.pathname.includes('meals')
+            ? `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`
+            : `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`,
+        );
+        if (!response.ok) {
+          throw new Error('Failed to fetch recipe.');
+        }
+        const data = await response.json();
+        setRecipeInProgress(data.meals?.[0] || data.drinks?.[0]);
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     fetchRecipeInProgress();
@@ -29,15 +36,17 @@ function RecipeInProgress() {
       localStorage.getItem(getLocalStorageKey()) || '[]',
     );
     setCheckedIngredients(storedCheckedIngredients);
+
+    // Limpar os dados antigos do localStorage
+    return () => {
+      localStorage.removeItem(getLocalStorageKey());
+    };
   }, [location.pathname]);
 
   useEffect(() => {
     const getLocalStorageKey = () => `checkedIngredients_${location.pathname}`;
 
-    localStorage.setItem(
-      getLocalStorageKey(),
-      JSON.stringify(checkedIngredients),
-    );
+    localStorage.setItem(getLocalStorageKey(), JSON.stringify(checkedIngredients));
   }, [checkedIngredients, location.pathname]);
 
   if (!recipeInProgress) {
@@ -56,7 +65,6 @@ function RecipeInProgress() {
   const numberOne = 1;
 
   return (
-
     <div>
       <img
         src={ strMealThumb || strDrinkThumb }
@@ -71,7 +79,7 @@ function RecipeInProgress() {
         {Object.keys(recipeInProgress).map((key) => {
           if (key.includes('strIngredient') && recipeInProgress[key]) {
             const index = key.slice(-numberOne);
-            const ingredientStepTestId = `${index - 1}-ingredient-step`;
+            const ingredientStepTestId = `${index - numberOne}-ingredient-step`;
             const isChecked = checkedIngredients.includes(index);
             return (
               <label
@@ -133,10 +141,9 @@ function RecipeInProgress() {
             doneDate: new Date().toISOString(),
             tags: recipeInProgress.strTags ? recipeInProgress.strTags.split(',') : [],
           };
-          localStorage.setItem(
-            'doneRecipes',
-            JSON.stringify([...doneRecipes, newRecipe]),
-          );
+          localStorage.setItem('doneRecipes', JSON.stringify(
+            [...doneRecipes, newRecipe],
+          ));
         } }
       >
         Finish Recipe
