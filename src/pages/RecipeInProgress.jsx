@@ -53,8 +53,10 @@ function RecipeInProgress() {
     strDrink,
     strAlcoholic,
   } = recipeInProgress;
+  const numberOne = 1;
 
   return (
+
     <div>
       <img
         src={ strMealThumb || strDrinkThumb }
@@ -68,7 +70,7 @@ function RecipeInProgress() {
       <ul>
         {Object.keys(recipeInProgress).map((key) => {
           if (key.includes('strIngredient') && recipeInProgress[key]) {
-            const index = key.slice(-1);
+            const index = key.slice(-numberOne);
             const ingredientStepTestId = `${index - 1}-ingredient-step`;
             const isChecked = checkedIngredients.includes(index);
             return (
@@ -84,8 +86,8 @@ function RecipeInProgress() {
                   checked={ isChecked }
                   onChange={ (event) => {
                     const { target } = event;
-                    const isChecked = target.checked;
-                    if (isChecked) {
+                    const isCheckeds = target.checked;
+                    if (isCheckeds) {
                       setCheckedIngredients([...checkedIngredients, index]);
                     } else {
                       const updatedCheckedIngredients = checkedIngredients.filter(
