@@ -200,6 +200,5 @@ describe('Testando a página <FavoriteRecipes />', () => {
 
     const recipe1Name = screen.queryByTestId(recipe1);
     expect(recipe1Name).not.toBeInTheDocument();
-    // expect(localStorage.getItem('favoriteRecipes')).toBe();
   });
 });
