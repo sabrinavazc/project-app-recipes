@@ -1,0 +1,34 @@
+.profile-container {
+  width: 100%;
+}
+
+.email-user {
+  color: #1a1b1c;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 40px 0;
+  text-align: center;
+}
+
+.pages-container {
+  align-items: flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 290px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  width: 90%;
+}
+
+.each-page {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #b1b1b1;
+  padding: 25px 0;
+  text-align: start;
+  width: 100%;
+}
+
+.icon-page {
+  margin-right: 20px;
+}
