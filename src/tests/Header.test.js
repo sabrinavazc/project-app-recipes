@@ -8,7 +8,7 @@ describe('Testando o componente `<Header />`', () => {
   const pageTitleId = 'page-title';
   const searchBar = 'search-input';
   test('1 - Teste se o componente renderiza corretamente', () => {
-    render(<Header title="Teste" />);
+    render(<Header title="Teste" src="http://test" />);
 
     const search = screen.getByTestId(searchId);
     const profile = screen.getByTestId(profileId);
@@ -21,7 +21,7 @@ describe('Testando o componente `<Header />`', () => {
   });
 
   test('2 - Teste se passar false para o  showSearchIcon nao renderiza ', () => {
-    render(<Header showSearchIcon={ false } title="Test Title" />);
+    render(<Header showSearchIcon={ false } title="Test Title" src="http://test" />);
     const searchIcon = screen.queryByAltText('search icon');
     expect(searchIcon).toBeNull();
   });
@@ -29,7 +29,7 @@ describe('Testando o componente `<Header />`', () => {
   test('3 - Teste se ao clicar no icone redireciona para o profile ', async () => {
     render(
       <BrowserRouter>
-        <Header title="Teste" />
+        <Header title="Teste" src="http://test" />
       </BrowserRouter>,
     );
     const profile = screen.getByTestId(profileId);
@@ -45,13 +45,13 @@ describe('Testando o componente `<Header />`', () => {
   });
 
   test('4 - Testa se inicialmente a barra de pesquisa nao aparece na tela', () => {
-    render(<Header title="Teste" />);
+    render(<Header title="Teste" src="http://test" />);
     const searchInput = screen.queryByTestId(searchBar);
     expect(searchInput).toBeNull();
   });
 
   test('5 - Testa se quando clica no botao de pesquisa, a barra de pesquisa aparece na tela', () => {
-    render(<Header title="Teste" />);
+    render(<Header title="Teste" src="http://test" />);
     const searchButton = screen.getByTestId(searchId);
     fireEvent.click(searchButton);
     const searchInput = screen.getByTestId(searchBar);
@@ -59,7 +59,7 @@ describe('Testando o componente `<Header />`', () => {
   });
 
   test('6 - Testa se quando clicado no botao pela segunda vez, a barra de pesquisa desaparece', () => {
-    render(<Header title="Test" />);
+    render(<Header title="Test" src="http://test" />);
     const searchButton = screen.getByTestId(searchId);
     fireEvent.click(searchButton);
     fireEvent.click(searchButton);

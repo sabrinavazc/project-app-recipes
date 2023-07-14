@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import search from '../images/searchIcon.svg';
 import profile from '../images/profileIcon.svg';
 import SearchBar from './SearchBar';
@@ -22,9 +22,9 @@ function Header({ showSearchIcon = true, title, src }) {
   return (
     <>
       <div className="header-container">
-        <Link to="/meals">
-          <img src={ logoHeader } alt="logo" className="logo-header" />
-        </Link>
+        {/* <Link to="/meals"> */}
+        <img src={ logoHeader } alt="logo" className="logo-header" />
+        {/* </Link> */}
 
         <div className="icons-header">
           {showSearchIcon && (
@@ -47,7 +47,7 @@ function Header({ showSearchIcon = true, title, src }) {
       </div>
       <div
         key={ title }
-        className={ `pages-identification ${showSearchBar ? 'search-opened' : ''}` }
+        className="pages-identification"
       >
         <img className="icon-page" src={ src } alt={ title } />
         <h1 className="page-title" data-testid="page-title">{title}</h1>

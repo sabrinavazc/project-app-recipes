@@ -4,13 +4,10 @@
   display: flex;
   height: 52px;
   justify-content: space-between;
+  position: fixed;
   right: 0;
   top: 0;
   width: 100%;
-}
-
-.meals.search-opened {
-  height: auto;
 }
 
 .logo-header {

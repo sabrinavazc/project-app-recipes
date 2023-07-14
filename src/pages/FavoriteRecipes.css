@@ -1,0 +1,85 @@
+.favorite-container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.container-icons {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+.favorite-box {
+  min-height: 50%;
+  overflow-y: auto;
+}
+
+.icone {
+  width: 68px;
+}
+
+.card-recipe {
+  align-items: center;
+  border: 1px solid #b1b1b1;
+  border-radius: 5px;
+  display: flex;
+  height: 135px;
+  margin-bottom: 15px;
+  min-width: 320px;
+}
+
+.left {
+  align-items: baseline;
+  display: flex;
+  flex-direction: column;
+  height: 65%;
+  justify-content: space-around;
+  margin: 0 auto;
+  width: 49%;
+}
+
+.image-container {
+  background: transparent;
+  border: none;
+  border-radius: 5px 0 0 5px;
+  height: 100%;
+  margin-right: 10px;
+  width: 50%;
+}
+
+.image-recipe {
+  border-radius: 5px 0 0 5px;
+  height: 100%;
+  width: 100%;
+}
+
+.top-text {
+  color: #1a1b1c;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.name-recipe {
+  color: #797d86;
+  font-size: 0.6rem;
+  padding: 0;
+}
+
+.btn-share, .btn-favorite {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  height: 100%;
+  padding-left: 0;
+  width: 50%;
+}
+
+.share, .favorite {
+  margin-left: 10px;
+}
