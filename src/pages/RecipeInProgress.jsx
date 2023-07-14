@@ -37,7 +37,7 @@ function RecipeInProgress() {
     );
     setCheckedIngredients(storedCheckedIngredients);
 
-    // Limpar os dados antigos do localStorage
+    // Limpa os dados antigos do localStorage
     return () => {
       localStorage.removeItem(getLocalStorageKey());
     };
@@ -50,7 +50,7 @@ function RecipeInProgress() {
   }, [checkedIngredients, location.pathname]);
 
   if (!recipeInProgress) {
-    return <div>Ops! We could not find your recipe.</div>;
+    return <div>wait... we are looking for your recipe.</div>;
   }
 
   const {
@@ -62,10 +62,11 @@ function RecipeInProgress() {
     strDrink,
     strAlcoholic,
   } = recipeInProgress;
+
   const numberOne = 1;
 
   return (
-    <div>
+    <div style={ { width: '360px', height: '640px' } }>
       <img
         src={ strMealThumb || strDrinkThumb }
         alt={ strMeal || strDrink }
@@ -74,8 +75,9 @@ function RecipeInProgress() {
       <h1 data-testid="recipe-title">{strMeal || strDrink}</h1>
       {strCategory && <p data-testid="recipe-category">{strCategory}</p>}
       {strAlcoholic && <p data-testid="recipe-category">{strAlcoholic}</p>}
+
       <h2>Ingredients:</h2>
-      <ul>
+      <ul data-testid="ingredients-container">
         {Object.keys(recipeInProgress).map((key) => {
           if (key.includes('strIngredient') && recipeInProgress[key]) {
             const index = key.slice(-numberOne);
