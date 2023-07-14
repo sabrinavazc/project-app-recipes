@@ -7,7 +7,7 @@ import SearchBar from './SearchBar';
 import logoHeader from '../assets/logo.svg';
 import './Header.css';
 
-function Header({ showSearchIcon = true, title }) {
+function Header({ showSearchIcon = true, title, src }) {
   const history = useHistory();
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -45,7 +45,13 @@ function Header({ showSearchIcon = true, title }) {
           </button>
         </div>
       </div>
-      <h1 data-testid="page-title">{title}</h1>
+      <div
+        key={ title }
+        className={ `pages-identification ${showSearchBar ? 'search-opened' : ''}` }
+      >
+        <img className="icon-page" src={ src } alt={ title } />
+        <h1 className="page-title" data-testid="page-title">{title}</h1>
+      </div>
       {showSearchBar && (<SearchBar isMeals={ title !== 'Drinks' } />)}
     </>
   );
@@ -54,6 +60,7 @@ function Header({ showSearchIcon = true, title }) {
 Header.propTypes = {
   showSearchIcon: PropTypes.bool,
   title: PropTypes.string.isRequired,
+  src: PropTypes.string.isRequired,
 };
 
 export default Header;

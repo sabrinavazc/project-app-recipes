@@ -2,6 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../components/Footer';
 import Header from '../components/Header';
+import profile from '../assets/profileIcon.svg';
 
 function Profile() {
   const history = useHistory();
@@ -23,7 +24,7 @@ function Profile() {
 
   return (
     <div>
-      <Header title="Profile" showSearchIcon={ false } />
+      <Header src={ profile } title="Profile" showSearchIcon={ false } />
       <h1>Profile</h1>
       <p data-testid="profile-email">{email}</p>
       <button

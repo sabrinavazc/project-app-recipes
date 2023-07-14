@@ -6,6 +6,7 @@ import allFood from '../assets/allFood.svg';
 import food from '../assets/food.svg';
 import allDrinks from '../assets/allDrinks.svg';
 import share from '../images/shareIcon.svg';
+import doneRecipe from '../assets/done.svg';
 
 function DoneRecipes() {
   const history = useHistory();
@@ -62,7 +63,7 @@ function DoneRecipes() {
 
   return (
     <div>
-      <Header title="Done Recipes" showSearchIcon={ false } />
+      <Header src={ doneRecipe } title="Done Recipes" showSearchIcon={ false } />
       <button onClick={ filterByAll } name="All" data-testid="filter-by-all-btn">
         <img src={ allFood } alt="all" />
       </button>
