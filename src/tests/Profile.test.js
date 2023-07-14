@@ -103,4 +103,19 @@ describe.only('Testando a pagina <Profile />', () => {
     expect(localStorage.clear).toHaveBeenCalled();
     expect(pushSpy).toHaveBeenCalledWith('/');
   });
+
+  test('5 - Testa se nao tiver email nao quebra a tela', () => {
+    mockLocalStorage();
+    jest.spyOn(localStorage, 'getItem')
+      .mockImplementationOnce(() => null);
+
+    render(
+      <BrowserRouter>
+        <Profile />
+      </BrowserRouter>,
+    );
+
+    const emailElement = screen.getByTestId('profile-email');
+    expect(emailElement).toBeInTheDocument();
+  });
 });

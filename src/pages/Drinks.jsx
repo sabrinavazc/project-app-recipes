@@ -30,16 +30,18 @@ function Drinks() {
     >
       <Header title="Drinks" />
       <h1>Drinks</h1>
-      {
-        drinkCategories.map((nameCategory, index) => (
-          <button
-            key={ index }
-            data-testid={ `${nameCategory.strCategory}-category-filter` }
-          >
-            {nameCategory.strCategory}
-          </button>
-        ))
-      }
+      <div style={ { display: 'flex' } }>
+        {
+          drinkCategories.map((nameCategory, index) => (
+            <button
+              key={ index }
+              data-testid={ `${nameCategory.strCategory}-category-filter` }
+            >
+              {nameCategory.strCategory}
+            </button>
+          ))
+        }
+      </div>
       <div style={ { display: 'flex', width: '90%', flexWrap: 'wrap' } }>
 
         {drinks?.slice(0, MAX_LENGTH).map((drink, index) => (

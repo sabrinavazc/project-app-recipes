@@ -17,9 +17,9 @@ function Recipes({ isMeals, recipe, index }) {
           style={ { width: '50px' } }
         />
       </Link>
-      <h1 data-testid={ `${index}-card-name` }>
+      <p data-testid={ `${index}-card-name` }>
         { isMeals ? recipe.strMeal : recipe.strDrink}
-      </h1>
+      </p>
     </div>
   );
 }

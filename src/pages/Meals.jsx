@@ -30,16 +30,19 @@ function Meals() {
     >
       <Header title="Meals" data-testid="header-component" />
       <h1>Meals</h1>
-      {
-        mealCategories.map((nameCategory, index) => (
-          <button
-            key={ index }
-            data-testid={ `${nameCategory.strCategory}-category-filter` }
-          >
-            {nameCategory.strCategory}
-          </button>
-        ))
-      }
+      <div style={ { display: 'flex' } }>
+        {
+
+          mealCategories.map((nameCategory, index) => (
+            <button
+              key={ index }
+              data-testid={ `${nameCategory.strCategory}-category-filter` }
+            >
+              {nameCategory.strCategory}
+            </button>
+          ))
+        }
+      </div>
       <div style={ { display: 'flex', width: '90%', flexWrap: 'wrap' } }>
         {meals?.slice(0, MAX_LENGTH).map((meal, index) => (
           <Recipes
