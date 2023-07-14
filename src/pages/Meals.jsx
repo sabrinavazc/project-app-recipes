@@ -37,11 +37,18 @@ function Meals() {
             <button
               key={ index }
               data-testid={ `${nameCategory.strCategory}-category-filter` }
+              type="button"
             >
               {nameCategory.strCategory}
             </button>
           ))
         }
+        <button
+          data-testid="All-category-filter"
+          type="button"
+        >
+          All
+        </button>
       </div>
       <div style={ { display: 'flex', width: '90%', flexWrap: 'wrap' } }>
         {meals?.slice(0, MAX_LENGTH).map((meal, index) => (

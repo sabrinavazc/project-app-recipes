@@ -4,30 +4,34 @@ import PropTypes from 'prop-types';
 
 function Recipes({ isMeals, recipe, index }) {
   return (
-    <div
-      key={ index }
-      data-testid={ `${index}-recipe-card` }
-      style={ { height: '100px' } }
-    >
-      <Link to={ isMeals ? `/meals/${recipe.id}` : `/drinks/${recipe.id}` }>
+    <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
+      <div
+        key={ index }
+        data-testid={ `${index}-recipe-card` }
+        style={ { height: '100px' } }
+      >
         <img
           data-testid={ `${index}-card-img` }
           src={ isMeals ? recipe.strMealThumb : recipe.strDrinkThumb }
           alt={ isMeals ? recipe.strMeal : recipe.strDrink }
           style={ { width: '50px' } }
         />
-      </Link>
-      <p data-testid={ `${index}-card-name` }>
-        { isMeals ? recipe.strMeal : recipe.strDrink}
-      </p>
-    </div>
+        <p
+          data-testid={ `${index}-card-name` }
+          style={ { color: 'black' } }
+        >
+          { isMeals ? recipe.strMeal : recipe.strDrink}
+        </p>
+      </div>
+    </Link>
   );
 }
 
 Recipes.propTypes = {
   isMeals: PropTypes.bool.isRequired,
   recipe: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    idMeal: PropTypes.string,
+    idDrink: PropTypes.string,
     strMealThumb: PropTypes.string,
     strMeal: PropTypes.string,
     strDrinkThumb: PropTypes.string,
