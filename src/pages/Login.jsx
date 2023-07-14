@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import Footer from '../components/Footer';
+import logoLogin from '../assets/login.svg';
+import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -27,9 +28,11 @@ function Login() {
   const isConditionValid = validationEmail && validationPassword;
 
   return (
-    <>
-      <form onSubmit={ handleSubmit }>
+    <div className="login-container">
+      <img className="logo-login" src={ logoLogin } alt="logo" />
+      <form className="form-user" onSubmit={ handleSubmit }>
         <input
+          className="input-login"
           type="email"
           value={ email }
           placeholder="Email"
@@ -37,6 +40,7 @@ function Login() {
           onChange={ ({ target }) => setEmail(target.value) }
         />
         <input
+          className="input-login"
           type="password"
           value={ password }
           placeholder="Senha"
@@ -44,6 +48,7 @@ function Login() {
           onChange={ handlePassword }
         />
         <button
+          className="btn-login"
           type="submit"
           disabled={ !isConditionValid }
           data-testid="login-submit-btn"
@@ -51,8 +56,7 @@ function Login() {
           Enter
         </button>
       </form>
-      <Footer />
-    </>
+    </div>
   );
 }
 
