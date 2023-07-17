@@ -12,6 +12,7 @@ function Drinks() {
   const { drinks, setDrinks } = useContext(RecipeContext);
   const [categoriesDrinks, setCategoriesDrinks] = useState([]);
   const drinkCategories = categoriesDrinks.slice(0, CATEGORIES);
+  const [currentFilterDrink, setCurrentFilterDrink] = useState(null);
 
   useEffect(() => {
     getAllDrinks()
@@ -34,6 +35,16 @@ function Drinks() {
     setDrinks(allDrinks);
   };
 
+  const toggleDrinksFilter = async (category) => {
+    if (currentFilterDrink === category) {
+      setCurrentFilterDrink(null);
+      handleFilterAllDrinks();
+    } else {
+      setCurrentFilterDrink(category);
+      handleDrinkCategoryFilter(category);
+    }
+  };
+
   return (
     <div
       style={ { display: 'flex',
@@ -50,7 +61,7 @@ function Drinks() {
               key={ index }
               data-testid={ `${nameCategory.strCategory}-category-filter` }
               type="button"
-              onClick={ () => handleDrinkCategoryFilter(nameCategory.strCategory) }
+              onClick={ () => toggleDrinksFilter(nameCategory.strCategory) }
             >
               {nameCategory.strCategory}
             </button>
