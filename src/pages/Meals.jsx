@@ -12,6 +12,7 @@ function Meals() {
   const { meals, setMeals } = useContext(RecipeContext);
   const [categoriesMeals, setCategoriesMeals] = useState([]);
   const mealCategories = categoriesMeals.slice(0, CATEGORIES);
+  const [currentFilterMeal, setCurrentFilterMeal] = useState(null);
 
   useEffect(() => {
     getAllFoods()
@@ -34,6 +35,16 @@ function Meals() {
     setMeals(allMeals);
   };
 
+  const toggleMealsFilter = async (category) => {
+    if (currentFilterMeal === category) {
+      setCurrentFilterMeal(null);
+      handleFilterAllMeals();
+    } else {
+      setCurrentFilterMeal(category);
+      handleMealCategoryFilter(category);
+    }
+  };
+
   return (
     <div
       style={ { display: 'flex',
@@ -51,7 +62,7 @@ function Meals() {
               key={ index }
               data-testid={ `${nameCategory.strCategory}-category-filter` }
               type="button"
-              onClick={ () => handleMealCategoryFilter(nameCategory.strCategory) }
+              onClick={ () => toggleMealsFilter(nameCategory.strCategory) }
             >
               {nameCategory.strCategory}
             </button>
