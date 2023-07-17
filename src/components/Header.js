@@ -49,7 +49,9 @@ function Header({ showSearchIcon = true, title, src }) {
         key={ title }
         className="pages-identification"
       >
-        <img className="icon-page" src={ src } alt={ title } />
+
+        <img src={ src } alt={ title } />
+
         <h1 className="page-title" data-testid="page-title">{title}</h1>
       </div>
       {showSearchBar && (<SearchBar isMeals={ title !== 'Drinks' } />)}

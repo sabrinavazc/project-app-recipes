@@ -14,10 +14,10 @@
 .filter-meals {
   align-items: baseline;
   display: flex;
-  justify-content: space-between;
-  margin: 0 auto;
+  flex-wrap: wrap;
+  justify-content: center;
   margin-bottom: 40px;
-  width: 95%;
+  width: 100%;
 }
 
 .btn-category {
@@ -29,11 +29,12 @@
   display: flex;
   flex-direction: column;
   font-size: 0.75rem;
+  justify-content: center;
   margin-bottom: 5px;
+  text-align: center;
 }
 
 .icons-category {
-  margin-left: 30px;
   width: 46px;
 }
 
@@ -41,10 +42,8 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
-  height: auto;
+  justify-content: space-between;
   margin: 0 auto;
-  max-height: 50%;
-  overflow-y: auto;
 }
 
 .each-filter-category {
@@ -52,7 +51,6 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  max-width: 15%;
 }
 
 /* Diferentes tamanhos de tela */
@@ -61,9 +59,5 @@
 
   .icons-category {
     width: 30px;
-  }
-
-  .each-recipe {
-    height: auto;
   }
 }

@@ -9,7 +9,7 @@ function Recipes({ isMeals, recipe, index }) {
       className="each-recipe"
       key={ index }
       data-testid={ `${index}-recipe-card` }
-      style={ { height: '100px' } }
+      // style={ { height: '100px' } }
     >
       <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
         <img
