@@ -3,7 +3,8 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipeContext from '../context/RecipeContext';
 import Recipes from '../components/Recipes';
-import { getAllFoods, getFoodsByCategory } from '../services/food-service';
+import { getAllFoods,
+  getFoodsByCategory, filterFoodsByCategory } from '../services/food-service';
 
 function Meals() {
   const MAX_LENGTH = 12;
@@ -21,6 +22,18 @@ function Meals() {
     getCateg();
   }, [setMeals]);
 
+  const handleMealCategoryFilter = async (category) => {
+    const mealsData = await filterFoodsByCategory(category);
+    const filterMeals = mealsData.slice(0, MAX_LENGTH);
+    setMeals(filterMeals);
+  };
+
+  const handleFilterAllMeals = async () => {
+    const mealsData = await getAllFoods();
+    const allMeals = mealsData.slice(0, MAX_LENGTH);
+    setMeals(allMeals);
+  };
+
   return (
     <div
       style={ { display: 'flex',
@@ -30,7 +43,7 @@ function Meals() {
     >
       <Header title="Meals" data-testid="header-component" />
       <h1>Meals</h1>
-      <div style={ { display: 'flex' } }>
+      <div style={ { display: 'flex', width: '80%' } }>
         {
 
           mealCategories.map((nameCategory, index) => (
@@ -38,6 +51,7 @@ function Meals() {
               key={ index }
               data-testid={ `${nameCategory.strCategory}-category-filter` }
               type="button"
+              onClick={ () => handleMealCategoryFilter(nameCategory.strCategory) }
             >
               {nameCategory.strCategory}
             </button>
@@ -46,6 +60,7 @@ function Meals() {
         <button
           data-testid="All-category-filter"
           type="button"
+          onClick={ () => handleFilterAllMeals() }
         >
           All
         </button>
