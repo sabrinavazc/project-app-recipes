@@ -6,6 +6,17 @@ function RecipeDetails() {
   const [item, setItem] = useState({});
   const location = useLocation();
   const { pathname } = location;
+
+  const {
+    strMeal, strDrink, strYoutube,
+    strCategory, strInstructions,
+    strImageSource, strAlcoholic,
+  } = item;
+
+  const ingredientsList = Object.entries(item)
+    .filter(([key, value]) => key.includes('strIngredient') && value)
+    .map(([, value]) => value);
+
   useEffect(() => {
     const recipeType = pathname.split('/')[1];
     const recipeId = pathname.split('/')[2];
@@ -15,10 +26,45 @@ function RecipeDetails() {
     };
     recipeInfo();
   }, [pathname]);
-  console.log(item);
+
   return (
     <div>
-      <p>{console.log(item)}</p>
+      <img
+        data-testid="recipe-photo"
+        src={ strImageSource }
+        alt={ item.title }
+      />
+      <h3 data-testid="recipe-title">
+        { strMeal || strDrink }
+      </h3>
+      <h4 data-testid="recipe-category">
+        { strAlcoholic }
+      </h4>
+      <h4 data-testid="recipe-category">
+        { strCategory }
+      </h4>
+      <h3>Ingredientes:</h3>
+      <ul>
+        {ingredientsList.map((ingredient, index) => (
+          <li
+            key={ index }
+            data-testid={ `${index}-ingredient-name-and-measure` }
+          >
+            { `${ingredient} - ${item[`strMeasure${index + 1}`]}` }
+          </li>
+        ))}
+      </ul>
+      <h3>Instruções:</h3>
+      <p data-testid="instructions">
+        { strInstructions }
+      </p>
+      <iframe
+        data-testid="video"
+        title="video"
+        width="420px"
+        height="315px"
+        src={ strYoutube }
+      />
     </div>
   );
 }
