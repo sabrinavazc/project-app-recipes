@@ -12,9 +12,9 @@ function RecipeInProgress() {
   const [recipeInProgress, setRecipeInProgress] = useState(null);
   const [checkedIngredients, setCheckedIngredients] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
-  const favoriteType = location.pathname.includes('meals') ? 'meals' : 'drinks';
+  const favoriteType = location.pathname.includes('meal') ? 'meal' : 'drink';
   const [isLinkCopied, setIsLinkCopied] = useState(false);
-  const [areAllIngredientsChecked, setAreAllIngredientsChecked] = useState(false);
+  const [disabledBtnFinish, setDisabledBtn] = useState(true);
 
   useEffect(() => {
     const fetchRecipeInProgress = async () => {
@@ -54,42 +54,35 @@ function RecipeInProgress() {
 
     localStorage.setItem(getLocalStorageKey(), JSON.stringify(checkedIngredients));
   }, [checkedIngredients, location.pathname]);
-
   // BOTÃO FINISH
   useEffect(() => {
-    if (recipeInProgress) {
-      const ingredientKeys = Object.keys(recipeInProgress).filter(
-        (key) => key.includes('strIngredient'),
-      );
+    if (!recipeInProgress) return;
+    const ingredientKeys = Object.keys(recipeInProgress).filter(
+      (key) => key.includes('strIngredient'),
+    );
+    const ingredientValues = ingredientKeys
+      .map((key) => recipeInProgress[key])
+      .filter((x) => x !== '' && x !== null && x !== undefined);
 
-      const allIngredientsChecked = ingredientKeys.every((key) => {
-        const one = 1;
-        const index = key.slice(-one);
-        return checkedIngredients.includes(parseInt(index, 10));
-      });
-
-      setAreAllIngredientsChecked(allIngredientsChecked);
-    }
+    const allIngredientsChecked = ingredientValues.length === checkedIngredients.length;
+    setDisabledBtn(!allIngredientsChecked);
   }, [checkedIngredients, recipeInProgress]);
-
   // REDIRECIONANDO AO FINAL DA RECEITA E ADC AO LOCALSTORAGE
   const handleFinishRecipe = () => {
     const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes')) || [];
 
     doneRecipes.push({
       id: recipeInProgress.idDrink || recipeInProgress.idMeal,
-      type: location.pathname.includes('meals') ? 'comida' : 'bebida',
-      area: recipeInProgress.strArea || '',
+      type: location.pathname.includes('meals') ? 'meal' : 'drink',
+      nationality: recipeInProgress.strArea || '',
       category: recipeInProgress.strCategory || '',
       alcoholicOrNot: recipeInProgress.strAlcoholic || '',
       name: recipeInProgress.strDrink || recipeInProgress.strMeal,
       image: recipeInProgress.strDrinkThumb || recipeInProgress.strMealThumb,
-      doneDate: new Date().toLocaleDateString('en-US'),
+      doneDate: new Date().toISOString(),
       tags: recipeInProgress.strTags ? recipeInProgress.strTags.split(',') : [],
     });
-
     localStorage.setItem('doneRecipes', JSON.stringify(doneRecipes));
-
     history.push('/done-recipes');
   };
   // APARTANDO FUNCAO DO ONCHANGE DO CHECKBOX
@@ -129,8 +122,11 @@ function RecipeInProgress() {
       const newFavorite = {
         id,
         type: favoriteType,
-        image: recipeInProgress[`str${favoriteType === 'meals' ? 'Meal' : 'Drink'}Thumb`],
-        name: recipeInProgress[`str${favoriteType === 'meals' ? 'Meal' : 'Drink'}`],
+        nationality: recipeInProgress.strArea || '',
+        category: recipeInProgress.strCategory || '',
+        alcoholicOrNot: recipeInProgress.strAlcoholic || '',
+        name: recipeInProgress[`str${favoriteType === 'meal' ? 'Meal' : 'Drink'}`],
+        image: recipeInProgress[`str${favoriteType === 'meal' ? 'Meal' : 'Drink'}Thumb`],
       };
       localStorage.setItem('favoriteRecipes', JSON.stringify(
         [...listOfFavorites, newFavorite],
@@ -236,7 +232,7 @@ function RecipeInProgress() {
       <button
         type="button"
         data-testid="finish-recipe-btn"
-        disabled={ !areAllIngredientsChecked }
+        disabled={ disabledBtnFinish }
         onClick={ handleFinishRecipe }
       >
         Finish Recipe
