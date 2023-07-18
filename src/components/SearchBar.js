@@ -10,6 +10,7 @@ import {
   getDrinkByFirstLetter,
   getDrinkByName } from '../services/drink-service';
 import RecipeContext from '../context/RecipeContext';
+import './SearchBar.css';
 
 function SearchBar({ isMeals = true }) {
   const { setMeals, setDrinks } = useContext(RecipeContext);
@@ -87,42 +88,75 @@ function SearchBar({ isMeals = true }) {
   };
 
   return (
-    <div className="search-bar">
-      <input
+    <div className="search-bar-container">
+      {/* <input
+        className="input-search"
         data-testid="search-input"
         type="text"
         placeholder="Search"
         onChange={ (e) => setSearchTerm(e.target.value) }
-      />
-      <label htmlFor="ingredient-search-radio">Ingredient</label>
-      <input
-        data-testid="ingredient-search-radio"
-        type="radio"
-        name="search"
-        onClick={ () => setSearchType('ingredient') }
-      />
-      <label htmlFor="name-search-radio">Name</label>
-      <input
-        data-testid="name-search-radio"
-        type="radio"
-        name="search"
-        onClick={ () => setSearchType('name') }
-      />
-      <label htmlFor="first-letter-search-radio">First Letter</label>
-      <input
-        data-testid="first-letter-search-radio"
-        type="radio"
-        name="search"
-        onClick={ () => setSearchType('first-letter') }
-      />
-      <button
-        data-testid="exec-search-btn"
-        type="button"
-        onClick={ handleSearchClick }
-      >
-        Search
+      /> */}
+      <div className="search-bar-div">
+        <input
+          className="input-search"
+          data-testid="search-input"
+          type="text"
+          placeholder="Search"
+          onChange={ (e) => setSearchTerm(e.target.value) }
+        />
+        <div className="all-filters">
+          <input
+            data-testid="ingredient-search-radio"
+            type="radio"
+            name="search"
+            onClick={ () => setSearchType('ingredient') }
+          />
+          <label
+            className="label-filter"
+            htmlFor="ingredient-search-radio"
+          >
+            Ingredient
 
-      </button>
+          </label>
+
+          <input
+            data-testid="name-search-radio"
+            type="radio"
+            name="search"
+            onClick={ () => setSearchType('name') }
+          />
+          <label
+            className="label-filter"
+            htmlFor="name-search-radio"
+          >
+            Name
+
+          </label>
+
+          <input
+            data-testid="first-letter-search-radio"
+            type="radio"
+            name="search"
+            onClick={ () => setSearchType('first-letter') }
+          />
+          <label
+            className="label-filter"
+            htmlFor="first-letter-search-radio"
+          >
+            First Letter
+
+          </label>
+        </div>
+        <button
+          className="searchBtn"
+          data-testid="exec-search-btn"
+          type="button"
+          onClick={ handleSearchClick }
+        >
+          Search
+
+        </button>
+      </div>
     </div>
   );
 }

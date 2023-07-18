@@ -5,7 +5,8 @@ import Recipes from '../components/Recipes';
 
 describe('Componente <Recipes />', () => {
   const recipe = {
-    id: '1',
+    idDrink: '1',
+    idMeal: '1',
     strMealThumb: 'meal-thumb.jpg',
     strMeal: 'Frango Curry',
     strDrinkThumb: 'drink-thumb.jpg',
@@ -44,10 +45,10 @@ describe('Componente <Recipes />', () => {
 
     const cardLink = getByTestId(`${index}-recipe-card`).querySelector('a');
 
-    expect(cardLink).toHaveAttribute('href', `/meals/${recipe.id}`);
+    expect(cardLink).toHaveAttribute('href', `/meals/${recipe.idMeal}`);
   });
 
-  it('2- renderiza o link correto com base na prop isMeals false', () => {
+  it('3- renderiza o link correto com base na prop isMeals false', () => {
     const isMeals = false;
     const index = 1;
 
@@ -59,6 +60,6 @@ describe('Componente <Recipes />', () => {
 
     const cardLink = getByTestId(`${index}-recipe-card`).querySelector('a');
 
-    expect(cardLink).toHaveAttribute('href', `/drinks/${recipe.id}`);
+    expect(cardLink).toHaveAttribute('href', `/drinks/${recipe.idDrink}`);
   });
 });

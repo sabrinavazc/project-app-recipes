@@ -10,12 +10,12 @@ jest.mock('../services/food-service');
 describe('Página <Meals />', () => {
   const mockMeals = [
     {
-      id: '1',
+      idMeal: '1',
       strMealThumb: 'meal-thumb-1.jpg',
       strMeal: 'Frango Curry',
     },
     {
-      id: '2',
+      idMeal: '2',
       strMealThumb: 'meal-thumb-2.jpg',
       strMeal: 'Lasanha',
     },

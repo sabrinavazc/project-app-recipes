@@ -1,29 +1,36 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './Recipes.css';
 
 function Recipes({ isMeals, recipe, index }) {
   return (
-    <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
-      <div
-        key={ index }
-        data-testid={ `${index}-recipe-card` }
-        style={ { height: '100px' } }
-      >
-        <img
-          data-testid={ `${index}-card-img` }
-          src={ isMeals ? recipe.strMealThumb : recipe.strDrinkThumb }
-          alt={ isMeals ? recipe.strMeal : recipe.strDrink }
-          style={ { width: '50px' } }
-        />
-        <p
-          data-testid={ `${index}-card-name` }
-          style={ { color: 'black' } }
+    <div
+      className="each-recipe"
+      key={ index }
+      data-testid={ `${index}-recipe-card` }
+    >
+      <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
+        <div
+          key={ index }
+          className="recipe-img"
         >
-          { isMeals ? recipe.strMeal : recipe.strDrink}
-        </p>
-      </div>
-    </Link>
+          <img
+            data-testid={ `${index}-card-img` }
+            src={ isMeals ? recipe.strMealThumb : recipe.strDrinkThumb }
+            alt={ isMeals ? recipe.strMeal : recipe.strDrink }
+            className="recipe-img"
+          />
+          <p
+            className="name-recipe"
+            data-testid={ `${index}-card-name` }
+            style={ { color: 'black' } }
+          >
+            { isMeals ? recipe.strMeal : recipe.strDrink}
+          </p>
+        </div>
+      </Link>
+    </div>
   );
 }
 

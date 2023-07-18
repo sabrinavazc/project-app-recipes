@@ -7,6 +7,9 @@ import food from '../assets/food.svg';
 import allDrinks from '../assets/allDrinks.svg';
 import share from '../images/shareIcon.svg';
 import favorite from '../images/blackHeartIcon.svg';
+import favorites from '../assets/favorites.svg';
+import './FavoriteRecipes.css';
+import Footer from '../components/Footer';
 
 function FavoriteRecipes() {
   const history = useHistory();
@@ -70,71 +73,105 @@ function FavoriteRecipes() {
   };
 
   return (
-    <div>
-      <Header title="Favorite Recipes" showSearchIcon={ false } />
-      <h1>Favorite Recipes</h1>
-      <button onClick={ filterByAll } name="All" data-testid="filter-by-all-btn">
-        <img src={ allFood } alt="all" />
-      </button>
-      <button onClick={ filterByMeals } name="Meals" data-testid="filter-by-meal-btn">
-        <img src={ food } alt="food" />
-      </button>
-      <button onClick={ filterByDrinks } name="Drinks" data-testid="filter-by-drink-btn">
-        <img src={ allDrinks } alt="all" />
-      </button>
-
-      {fiteredRecipes?.map((recipe, index) => (
-        <div key={ index }>
-          <button
-            onClick={ () => redirectDetails(recipe.id, recipe.type) }
-            style={ {
-              border: 'none', background: 'none', padding: 0, cursor: 'pointer' } }
-          >
-            <img
-              src={ recipe.image }
-              data-testid={ `${index}-horizontal-image` }
-              alt="recipe"
-              style={ { width: '100px' } }
-            />
-          </button>
-          <p
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            {recipe.type === 'meal'
-              ? `${recipe.nationality} - ${recipe.category}`
-              : recipe.alcoholicOrNot}
-          </p>
-          <button
-            onClick={ () => redirectDetails(recipe.id, recipe.type) }
-            style={ {
-              border: 'none', background: 'none', padding: 0, cursor: 'pointer' } }
-          >
-            <p data-testid={ `${index}-horizontal-name` }>
-              {recipe.type === 'meal' ? recipe.name : recipe.name}
-            </p>
-          </button>
-          <button
-            onClick={ () => handleLinkCopy(recipe.id) }
-          >
-            <img
-              data-testid={ `${index}-horizontal-share-btn` }
-              src={ share }
-              alt="share"
-            />
-          </button>
-          <button
-            onClick={ () => removeFavorite(recipe.id) }
-          >
-            <img
-              data-testid={ `${index}-horizontal-favorite-btn` }
-              src={ favorite }
-              alt="favorite"
-            />
-          </button>
-          {linkCopied.includes(recipe.id)
-          && <p style={ { background: 'yellow' } }>Link copied!</p>}
-        </div>
-      ))}
+    <div className="favorite-container">
+      <Header src={ favorites } title="Favorite Recipes" showSearchIcon={ false } />
+      <div className="container-icons">
+        <button
+          className="btn-category"
+          onClick={ filterByAll }
+          name="All"
+          data-testid="filter-by-all-btn"
+        >
+          <img className="icone" src={ allFood } alt="all" />
+          All
+        </button>
+        <button
+          className="btn-category"
+          onClick={ filterByMeals }
+          name="Meals"
+          data-testid="filter-by-meal-btn"
+        >
+          <img className="icone" src={ food } alt="Allfood" />
+          Food
+        </button>
+        <button
+          className="btn-category"
+          onClick={ filterByDrinks }
+          name="Drinks"
+          data-testid="filter-by-drink-btn"
+        >
+          <img className="icone" src={ allDrinks } alt="allDrinks" />
+          Drinks
+        </button>
+      </div>
+      <div className="favorite-box">
+        {fiteredRecipes?.map((recipe, index) => (
+          <div key={ index } className="card-recipe">
+            <button
+              className="image-container"
+              style={ { padding: '0px' } }
+              onClick={ () => redirectDetails(recipe.id, recipe.type) }
+            >
+              <div style={ { height: '100%', position: 'relative' } }>
+                <img
+                  className="image-recipe"
+                  src={ recipe.image }
+                  data-testid={ `${index}-horizontal-image` }
+                  alt="recipe"
+                />
+                {linkCopied.includes(recipe.id)
+          && <p className="link-copied-favorite">Link copied!</p>}
+              </div>
+            </button>
+            <div className="left">
+              <div style={ { padding: '0px' } }>
+                <p
+                  className="top-text"
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {recipe.type === 'meal'
+                    ? `${recipe.nationality} - ${recipe.category}`
+                    : recipe.alcoholicOrNot}
+                </p>
+                <button
+                  onClick={ () => redirectDetails(recipe.id, recipe.type) }
+                  style={ {
+                    border: 'none', background: 'none', padding: 0, cursor: 'pointer' } }
+                >
+                  <p className="name-recipe" data-testid={ `${index}-horizontal-name` }>
+                    {recipe.type === 'meal' ? recipe.name : recipe.name}
+                  </p>
+                </button>
+              </div>
+              <div>
+                <button
+                  className="btn-share"
+                  onClick={ () => handleLinkCopy(recipe.id) }
+                >
+                  <img
+                    className="share"
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    src={ share }
+                    alt="share"
+                  />
+                </button>
+                <button
+                  className="btn-favorite"
+                  onClick={ () => removeFavorite(recipe.id) }
+                >
+                  <img
+                    className="favorite"
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    src={ favorite }
+                    alt="favorite"
+                  />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Footer />
     </div>
   );
 }

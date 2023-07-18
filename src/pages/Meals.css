@@ -1,0 +1,73 @@
+.meals-container {
+  align-items: center;
+  background-color: white;
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+
+  /* height: 100%; */
+  justify-content: space-between;
+  margin-bottom: 100px;
+
+  /* max-height: 640px; */
+
+  /* min-height: 640px; */
+  width: 100%;
+}
+
+.filter-meals {
+  align-items: baseline;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 40px;
+  position: sticky;
+  width: 100%;
+}
+
+.btn-category {
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  color: #797d86;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  font-size: 0.75rem;
+  justify-content: center;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.icons-category {
+  width: 46px;
+}
+
+.recipes-container {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  height: 400px;
+  justify-content: space-between;
+  margin: 0 auto;
+
+  /* margin-bottom: 100px; */
+
+  /* overflow-y: scroll; */
+}
+
+.each-filter-category {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Diferentes tamanhos de tela */
+
+@media only screen and ( max-width : 360px ) {
+
+  .icons-category {
+    width: 30px;
+  }
+}
