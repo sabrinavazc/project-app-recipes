@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 import Header from '../components/Header';
 import allFood from '../assets/allFood.svg';
 import food from '../assets/food.svg';
@@ -51,7 +50,6 @@ function DoneRecipes() {
       await copy(link);
       const newLinkCopied = [...linkCopied, id];
       setLinkCopied(newLinkCopied);
-      toast('Link copiado!');
     };
 
     copyLink();
@@ -103,13 +101,19 @@ function DoneRecipes() {
               style={ {
                 border: 'none', background: 'none', padding: 0, cursor: 'pointer' } }
             >
-              <img
-                className="image-recipe-done"
-                src={ recipe.image }
-                data-testid={ `${index}-horizontal-image` }
-                alt="recipe"
-                style={ { width: '100px' } }
-              />
+              <div style={ { height: '100%', position: 'relative' } }>
+                <img
+                  className="image-recipe-done"
+                  src={ recipe.image }
+                  data-testid={ `${index}-horizontal-image` }
+                  alt="recipe"
+                />
+                {linkCopied.includes(recipe.id)
+                  && (
+                    <p className="link-copied"> Link copied! </p>
+                  )}
+              </div>
+
             </button>
             <div className="left-done">
               <div className="title-share">
@@ -162,36 +166,10 @@ function DoneRecipes() {
 
             </div>
 
-            {linkCopied.includes(recipe.id)
-              && (
-                <p className="link-copied"> Link copied! </p>
-              )}
-
           </div>
         ))}
       </div>
       <Footer />
-      <Toaster
-        position="top-right"
-        toastOptions={ {
-          // Define default options
-          className: '',
-          duration: 5000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        } }
-      />
     </div>
   );
 }

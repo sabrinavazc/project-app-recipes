@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import copy from 'clipboard-copy';
 import { useHistory } from 'react-router-dom';
-import toast, { Toaster } from 'react-hot-toast';
 import Header from '../components/Header';
 import allFood from '../assets/allFood.svg';
 import food from '../assets/food.svg';
@@ -52,7 +51,6 @@ function FavoriteRecipes() {
       await copy(link);
       const newLinkCopied = [...linkCopied, id];
       setLinkCopied(newLinkCopied);
-      toast('Link copiado!');
     };
 
     copyLink();
@@ -114,12 +112,16 @@ function FavoriteRecipes() {
               style={ { padding: '0px' } }
               onClick={ () => redirectDetails(recipe.id, recipe.type) }
             >
-              <img
-                className="image-recipe"
-                src={ recipe.image }
-                data-testid={ `${index}-horizontal-image` }
-                alt="recipe"
-              />
+              <div style={ { height: '100%', position: 'relative' } }>
+                <img
+                  className="image-recipe"
+                  src={ recipe.image }
+                  data-testid={ `${index}-horizontal-image` }
+                  alt="recipe"
+                />
+                {linkCopied.includes(recipe.id)
+          && <p className="link-copied-favorite">Link copied!</p>}
+              </div>
             </button>
             <div className="left">
               <div style={ { padding: '0px' } }>
@@ -166,33 +168,10 @@ function FavoriteRecipes() {
                 </button>
               </div>
             </div>
-            {linkCopied.includes(recipe.id)
-          && <p className="link-copied">Link copied!</p>}
           </div>
         ))}
       </div>
       <Footer />
-      <Toaster
-        position="top-right"
-        toastOptions={ {
-          // Define default options
-          className: '',
-          duration: 5000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 3000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        } }
-      />
     </div>
   );
 }

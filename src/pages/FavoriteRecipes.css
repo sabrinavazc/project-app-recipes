@@ -38,7 +38,7 @@
   width: 100%;
 }
 
-.link-copied {
+.link-copied-favorite {
   align-items: center;
   background: #fcdc36;
   border-radius: 50%;
@@ -46,11 +46,11 @@
   font-size: 0.65rem;
   height: 50px;
   justify-content: center;
-  margin-bottom: 4%;
-  margin-left: 2px;
+  left: 2px;
   padding: 15px;
   position: absolute;
   text-align: center;
+  top: 2px;
   width: 50px;
 }
 

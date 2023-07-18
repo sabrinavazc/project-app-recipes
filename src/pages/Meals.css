@@ -21,7 +21,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 40px;
-  overflow-y: auto;
+  position: sticky;
   width: 100%;
 }
 
