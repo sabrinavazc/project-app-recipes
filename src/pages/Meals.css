@@ -4,10 +4,14 @@
   display: flex;
   flex-grow: 1;
   flex-wrap: wrap;
-  height: 100%;
+
+  /* height: 100%; */
   justify-content: space-between;
-  max-height: 640px;
-  min-height: 640px;
+  margin-bottom: 100px;
+
+  /* max-height: 640px; */
+
+  /* min-height: 640px; */
   width: 100%;
 }
 
@@ -17,6 +21,7 @@
   flex-wrap: wrap;
   justify-content: center;
   margin-bottom: 40px;
+  overflow-y: auto;
   width: 100%;
 }
 
@@ -42,8 +47,13 @@
   align-items: center;
   display: flex;
   flex-wrap: wrap;
+  height: 400px;
   justify-content: space-between;
   margin: 0 auto;
+
+  /* margin-bottom: 100px; */
+
+  /* overflow-y: scroll; */
 }
 
 .each-filter-category {

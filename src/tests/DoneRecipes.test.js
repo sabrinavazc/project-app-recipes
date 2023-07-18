@@ -7,6 +7,7 @@ import { createMemoryHistory } from 'history';
 import { Router } from 'react-router-dom/cjs/react-router-dom.min';
 import DoneRecipes from '../pages/DoneRecipes';
 
+jest.mock('react-ho');
 jest.mock('clipboard-copy', () => jest.fn().mockImplementation(() => Promise.resolve()));
 describe('Testando a página <DoneRecipes />', () => {
   const name = 'Coddled pork with cider';
