@@ -6,6 +6,7 @@ function RecipeDetails() {
   const [item, setItem] = useState({});
   const location = useLocation();
   const { pathname } = location;
+  const [recommendations, setRecommendations] = useState([]);
 
   const {
     strMeal, strDrink, strYoutube,
@@ -23,9 +24,16 @@ function RecipeDetails() {
     const recipeInfo = async () => {
       const data = await fetchRecipeById(recipeId, recipeType);
       setItem(data);
+      const urlRecommendations = pathname.split('/')[1] === 'meals'
+        ? 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s='
+        : 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const responseRecommendations = await fetch(urlRecommendations);
+      const dataRecommendations = await responseRecommendations.json();
+      setRecommendations(dataRecommendations);
     };
     recipeInfo();
   }, [pathname]);
+  console.log(recommendations);
 
   return (
     <div>
@@ -43,7 +51,7 @@ function RecipeDetails() {
       <h4 data-testid="recipe-category">
         { strCategory }
       </h4>
-      <h3>Ingredientes:</h3>
+      <h3>Ingredients:</h3>
       <ul>
         {ingredientsList.map((ingredient, index) => (
           <li
@@ -54,7 +62,7 @@ function RecipeDetails() {
           </li>
         ))}
       </ul>
-      <h3>Instruções:</h3>
+      <h3>Instructions:</h3>
       <p data-testid="instructions">
         { strInstructions }
       </p>
