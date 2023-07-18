@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { fetchRecipeById } from '../helpers/fetchApi';
+import './RecipeDetails.css';
 
 function RecipeDetails() {
   const [item, setItem] = useState({});
@@ -73,6 +74,13 @@ function RecipeDetails() {
         height="315px"
         src={ strYoutube }
       />
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        className="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }
