@@ -3,6 +3,7 @@ import Footer from '../components/Footer';
 import Header from '../components/Header';
 import RecipeContext from '../context/RecipeContext';
 import Recipes from '../components/Recipes';
+
 import mealIcon from '../images/mealIcon.svg';
 import { getAllFoods, getFoodsByCategory } from '../services/food-service';
 import allFood from '../assets/allFood.svg';
@@ -13,12 +14,17 @@ import dessert from '../assets/desert.svg';
 import goat from '../assets/goat.svg';
 import './Meals.css';
 
+import { getAllFoods,
+  getFoodsByCategory, filterFoodsByCategory } from '../services/food-service';
+
+
 function Meals() {
   const MAX_LENGTH = 12;
   const CATEGORIES = 5;
   const { meals, setMeals } = useContext(RecipeContext);
   const [categoriesMeals, setCategoriesMeals] = useState([]);
   const mealCategories = categoriesMeals.slice(0, CATEGORIES);
+  const [currentFilterMeal, setCurrentFilterMeal] = useState(null);
 
   useEffect(() => {
     getAllFoods()
@@ -31,11 +37,34 @@ function Meals() {
     };
     getCateg();
   }, [setMeals]);
+  
+  const handleMealCategoryFilter = async (category) => {
+    const mealsData = await filterFoodsByCategory(category);
+    const filterMeals = mealsData.slice(0, MAX_LENGTH);
+    setMeals(filterMeals);
+  };
+
+  const handleFilterAllMeals = async () => {
+    const mealsData = await getAllFoods();
+    const allMeals = mealsData.slice(0, MAX_LENGTH);
+    setMeals(allMeals);
+  };
+
+  const toggleMealsFilter = async (category) => {
+    if (currentFilterMeal === category) {
+      setCurrentFilterMeal(null);
+      handleFilterAllMeals();
+    } else {
+      setCurrentFilterMeal(category);
+      handleMealCategoryFilter(category);
+    }
+  };
 
   const images = [beef, breakfast, chicken, dessert, goat];
-
   return (
-    <div className="meals-container">
+    <div
+      className="meals-container"
+    >
       <Header title="Meals" src={ mealIcon } data-testid="header-component" />
       <div className="filter-meals">
         <div className="each-filter-category">
@@ -63,8 +92,25 @@ function Meals() {
                 {nameCategory.strCategory}
               </button>
             </div>
+
+            <button
+              key={ index }
+              data-testid={ `${nameCategory.strCategory}-category-filter` }
+              type="button"
+              onClick={ () => toggleMealsFilter(nameCategory.strCategory) }
+            >
+              {nameCategory.strCategory}
+            </button>
+
           ))
         }
+        <button
+          data-testid="All-category-filter"
+          type="button"
+          onClick={ () => handleFilterAllMeals() }
+        >
+          All
+        </button>
       </div>
       <div className="recipes-container">
         {meals?.slice(0, MAX_LENGTH).map((meal, index) => (

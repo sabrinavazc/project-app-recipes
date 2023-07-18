@@ -9,20 +9,29 @@ function Recipes({ isMeals, recipe, index }) {
       className="each-recipe"
       key={ index }
       data-testid={ `${index}-recipe-card` }
-      // style={ { height: '100px' } }
     >
-      <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
+    <Link to={ isMeals ? `/meals/${recipe.idMeal}` : `/drinks/${recipe.idDrink}` }>
+      <div
+        key={ index }
+        data-testid={ `${index}-recipe-card` }
+        style={ { height: '100px' } }
+      >
         <img
           data-testid={ `${index}-card-img` }
           src={ isMeals ? recipe.strMealThumb : recipe.strDrinkThumb }
           alt={ isMeals ? recipe.strMeal : recipe.strDrink }
           className="recipe-img"
         />
-      </Link>
-      <p className="name-recipe" data-testid={ `${index}-card-name` }>
-        { isMeals ? recipe.strMeal : recipe.strDrink}
-      </p>
-    </div>
+      </div>
+        <p
+          className="name-recipe"
+          data-testid={ `${index}-card-name` }
+          style={ { color: 'black' } }
+        >
+          { isMeals ? recipe.strMeal : recipe.strDrink}
+        </p>
+      </div>
+    </Link>
   );
 }
 

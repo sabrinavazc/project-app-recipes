@@ -27,3 +27,9 @@ export function getFoodsByCategory() {
     .then((response) => response.json())
     .then((data) => data.meals);
 }
+
+export function filterFoodsByCategory(category) {
+  return fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
+    .then((response) => response.json())
+    .then((data) => data.meals);
+}
