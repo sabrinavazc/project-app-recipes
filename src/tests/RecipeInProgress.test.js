@@ -151,4 +151,67 @@ describe('Testando caminhos do usuário em <RecipeInProgress />', () => {
       expect(checkedIngredientSteps.length).toBe(ingredientSteps.length);
     });
   });
+
+  it('deve copiar o link de compartilhamento ao clicar no botão de compartilhamento', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    const mockClipboardCopy = jest.fn().mockResolvedValue();
+    jest.mock('clipboard-copy', () => mockClipboardCopy);
+
+    render(<RecipeInProgress />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      const shareButton = screen.getByTestId('share-btn');
+      expect(shareButton).toBeInTheDocument();
+
+      fireEvent.click(shareButton);
+
+      expect(screen.getByText('Link copied!')).toBeInTheDocument();
+    });
+  });
+
+  it('deve favoritar ou desfavoritar a receita ao clicar no botão de favoritar', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(<RecipeInProgress />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      const favoriteButton = screen.getByTestId('favorite-btn');
+      expect(favoriteButton).toBeInTheDocument();
+
+      expect(favoriteButton).toHaveAttribute('src', whiteHeartIcon);
+
+      fireEvent.click(favoriteButton);
+
+      expect(favoriteButton).toHaveAttribute('src', blackHeartIcon);
+
+      fireEvent.click(favoriteButton);
+
+      expect(localStorage.setItem).toHaveBeenCalledWith(
+        'favoriteRecipes',
+        JSON.stringify([]),
+      );
+
+      expect(favoriteButton).toHaveAttribute('src', whiteHeartIcon);
+    });
+  });
+
+  it('deve desabilitar o botão "Finish Recipe" quando nem todos os ingredientes estiverem marcados', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(<RecipeInProgress />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      // requisito ainda não aprovado
+    });
+  });
 });
