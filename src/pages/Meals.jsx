@@ -5,7 +5,8 @@ import RecipeContext from '../context/RecipeContext';
 import Recipes from '../components/Recipes';
 
 import mealIcon from '../images/mealIcon.svg';
-import { getAllFoods, getFoodsByCategory } from '../services/food-service';
+import { getAllFoods,
+  getFoodsByCategory, filterFoodsByCategory } from '../services/food-service';
 import allFood from '../assets/allFood.svg';
 import beef from '../assets/beef.svg';
 import breakfast from '../assets/breakfast.svg';
@@ -13,10 +14,6 @@ import chicken from '../assets/chicken.svg';
 import dessert from '../assets/desert.svg';
 import goat from '../assets/goat.svg';
 import './Meals.css';
-
-import { getAllFoods,
-  getFoodsByCategory, filterFoodsByCategory } from '../services/food-service';
-
 
 function Meals() {
   const MAX_LENGTH = 12;
@@ -37,7 +34,7 @@ function Meals() {
     };
     getCateg();
   }, [setMeals]);
-  
+
   const handleMealCategoryFilter = async (category) => {
     const mealsData = await filterFoodsByCategory(category);
     const filterMeals = mealsData.slice(0, MAX_LENGTH);
@@ -71,6 +68,7 @@ function Meals() {
           <button
             className="btn-category"
             data-testid="All-category-filter"
+            onClick={ () => handleFilterAllMeals() }
           >
             <img className="icons-category" src={ allFood } alt="all" />
             All
@@ -82,7 +80,9 @@ function Meals() {
               <button
                 className="btn-category"
                 key={ index }
+                type="button"
                 data-testid={ `${nameCategory.strCategory}-category-filter` }
+                onClick={ () => toggleMealsFilter(nameCategory.strCategory) }
               >
                 <img
                   className="icons-category"
@@ -93,24 +93,24 @@ function Meals() {
               </button>
             </div>
 
-            <button
-              key={ index }
-              data-testid={ `${nameCategory.strCategory}-category-filter` }
-              type="button"
-              onClick={ () => toggleMealsFilter(nameCategory.strCategory) }
-            >
-              {nameCategory.strCategory}
-            </button>
+            // <button
+            //   key={ index }
+            //   data-testid={ `${nameCategory.strCategory}-category-filter` }
+            //   type="button"
+            //   onClick={ () => toggleMealsFilter(nameCategory.strCategory) }
+            // >
+            //   {nameCategory.strCategory}
+            // </button>
 
           ))
         }
-        <button
+        {/* <button
           data-testid="All-category-filter"
           type="button"
           onClick={ () => handleFilterAllMeals() }
         >
           All
-        </button>
+        </button> */}
       </div>
       <div className="recipes-container">
         {meals?.slice(0, MAX_LENGTH).map((meal, index) => (

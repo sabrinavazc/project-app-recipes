@@ -3,7 +3,8 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import RecipeContext from '../context/RecipeContext';
 import Recipes from '../components/Recipes';
-import { getAllDrinks, getDrinksByCategory } from '../services/drink-service';
+import { getAllDrinks,
+  getDrinksByCategory, filterDrinksByCategory } from '../services/drink-service';
 import drinkIcon from '../images/drinkIcon.svg';
 import allDrink from '../assets/allDrinks.svg';
 import cocoa from '../assets/cocoa.svg';
@@ -11,8 +12,6 @@ import cocktail from '../assets/coktails.svg';
 import ordinary from '../assets/ordinary.svg';
 import shake from '../assets/shake.svg';
 import others from '../assets/others.svg';
-import { getAllDrinks,
-  getDrinksByCategory, filterDrinksByCategory } from '../services/drink-service';
 
 function Drinks() {
   const MAX_LENGTH = 12;
@@ -30,7 +29,7 @@ function Drinks() {
     };
     getCateg();
   }, [setDrinks]);
-  
+
   const handleDrinkCategoryFilter = async (category) => {
     const drinksData = await filterDrinksByCategory(category);
     const filterDrinks = drinksData.slice(0, MAX_LENGTH);
@@ -52,7 +51,7 @@ function Drinks() {
       handleDrinkCategoryFilter(category);
     }
   };
-  
+
   const images = [ordinary, cocktail, shake, others, cocoa];
   return (
     <div
@@ -65,6 +64,8 @@ function Drinks() {
           <button
             className="btn-category"
             data-testid="All-category-filter"
+            type="button"
+            onClick={ () => handleFilterAllDrinks() }
           >
             <img className="icons-category" src={ allDrink } alt="all" />
             All
@@ -81,22 +82,15 @@ function Drinks() {
                 onClick={ () => toggleDrinksFilter(nameCategory.strCategory) }
               >
                 <img
-                    className="icons-category"
-                    src={ images[index] }
-                    alt={ nameCategory.strCategory }
-                  />
+                  className="icons-category"
+                  src={ images[index] }
+                  alt={ nameCategory.strCategory }
+                />
                 {nameCategory.strCategory}
               </button>
             </div>
           ))
         }
-        <button
-          data-testid="All-category-filter"
-          type="button"
-          onClick={ () => handleFilterAllDrinks() }
-        >
-          All
-        </button>
       </div>
       <div className="recipes-container">
         {drinks?.slice(0, MAX_LENGTH).map((drink, index) => (
