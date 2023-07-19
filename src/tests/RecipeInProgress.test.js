@@ -144,7 +144,7 @@ describe('Receita em Progresso', () => {
 
     const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
     expect(favorites).toHaveLength(1);
-    expect(favorites[0].id).toBe(recipeInProgressMock.idDrink 
+    expect(favorites[0].id).toBe(recipeInProgressMock.idDrink
       || recipeInProgressMock.idMeal);
     expect(favorites[0].type).toBe('meal');
 
