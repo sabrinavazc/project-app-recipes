@@ -1,6 +1,7 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, waitForElementToBeRemoved } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import RecipeInProgress from '../pages/RecipeInProgress';
 
 jest.mock('clipboard-copy', () => jest.fn().mockImplementation(() => Promise.resolve()));
@@ -10,6 +11,9 @@ const recipeInProgressMock = {
   strMeal: 'Cocktail',
   strCategory: 'Alcoholic',
   strInstructions: 'Instructions for the cocktail...',
+  strIngredient1: 'Ingredient 1',
+  strIngredient2: 'Ingredient 2',
+  strIngredient3: 'Ingredient 3',
 };
 
 describe('Receita em Progresso', () => {
@@ -57,7 +61,6 @@ describe('Receita em Progresso', () => {
       expect(recipeCategory.textContent).toBe(recipeInProgressMock.strCategory);
     });
   });
-
   it('deve exibir as instruções da receita', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -72,108 +75,7 @@ describe('Receita em Progresso', () => {
       expect(recipeInstructions.textContent).toBe(recipeInProgressMock.strInstructions);
     });
   });
-});
-
-describe('Testando caminhos do usuário em <RecipeInProgress />', () => {
-  const mockRecipeId = '123'; // ID de receita fictício
-  const mockRecipe = {
-    idMeal: mockRecipeId,
-    strMealThumb: 'https://www.themealdb.com/images/media/meals/xxptyq1511452222.jpg',
-    strMeal: 'Cocktail',
-    strCategory: 'Alcoholic',
-    strInstructions: 'Instructions for the cocktail...',
-    strIngredient1: 'Ingredient 1',
-    strIngredient2: 'Ingredient 2',
-    strIngredient3: 'Ingredient 3',
-  };
-
-  const localStorageMock = (() => {
-    let store = {};
-
-    return {
-      getItem: jest.fn((key) => store[key] || null),
-      setItem: jest.fn((key, value) => {
-        store[key] = value.toString();
-      }),
-      removeItem: jest.fn((key) => {
-        delete store[key];
-      }),
-      clear: jest.fn(() => {
-        store = {};
-      }),
-    };
-  })();
-
-  const mockLocalStorage = () => {
-    Object.defineProperty(window, 'localStorage', {
-      value: localStorageMock,
-    });
-  };
-
-  beforeEach(() => {
-    mockLocalStorage();
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({ meals: [mockRecipe] }),
-    });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
-  });
-
-  it('deve marcar os ingredientes como concluídos', async () => {
-    render(
-      <RecipeInProgress />,
-      { wrapper: MemoryRouter, route: `/recipes/${mockRecipeId}` },
-    );
-
-    await waitFor(() => {
-      const ingredientSteps = screen.queryAllByTestId(/^(\d+)-ingredient-step$/i);
-      expect(ingredientSteps.length).toBeGreaterThan(0);
-
-      ingredientSteps.forEach((ingredientStep) => {
-        const checkbox = ingredientStep.querySelector('input[type="checkbox"]');
-        expect(checkbox).toBeInTheDocument();
-
-        expect(checkbox.checked).toBe(false);
-
-        fireEvent.click(checkbox);
-
-        expect(checkbox.checked).toBe(true);
-      });
-
-      const checkedIngredientSteps = screen.queryAllByTestId(/^(\d+)-ingredient-step$/i)
-        .filter((ingredientStep) => {
-          const checkbox = ingredientStep.querySelector('input[type="checkbox"]');
-          return checkbox.checked;
-        });
-      expect(checkedIngredientSteps.length).toBe(ingredientSteps.length);
-    });
-  });
-
-  it('deve copiar o link de compartilhamento ao clicar no botão de compartilhamento', async () => {
-    jest.spyOn(global, 'fetch').mockResolvedValue({
-      ok: true,
-      json: async () => ({ meals: [recipeInProgressMock] }),
-    });
-
-    const mockClipboardCopy = jest.fn().mockResolvedValue();
-    jest.mock('clipboard-copy', () => mockClipboardCopy);
-
-    render(<RecipeInProgress />, { wrapper: MemoryRouter });
-
-    await waitFor(() => {
-      const shareButton = screen.getByTestId('share-btn');
-      expect(shareButton).toBeInTheDocument();
-
-      fireEvent.click(shareButton);
-
-      expect(screen.getByText('Link copied!')).toBeInTheDocument();
-    });
-  });
-
-  it('deve favoritar ou desfavoritar a receita ao clicar no botão de favoritar', async () => {
+  it('deve exibir os ingredientes da receita', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
       json: async () => ({ meals: [recipeInProgressMock] }),
@@ -182,26 +84,14 @@ describe('Testando caminhos do usuário em <RecipeInProgress />', () => {
     render(<RecipeInProgress />, { wrapper: MemoryRouter });
 
     await waitFor(() => {
-      const favoriteButton = screen.getByTestId('favorite-btn');
-      expect(favoriteButton).toBeInTheDocument();
+      const ingredientLabels = screen.getAllByTestId(/-ingredient-step$/);
 
-      expect(favoriteButton).toHaveAttribute('src', whiteHeartIcon);
-
-      fireEvent.click(favoriteButton);
-
-      expect(favoriteButton).toHaveAttribute('src', blackHeartIcon);
-
-      fireEvent.click(favoriteButton);
-
-      expect(localStorage.setItem).toHaveBeenCalledWith(
-        'favoriteRecipes',
-        JSON.stringify([]),
-      );
-
-      expect(favoriteButton).toHaveAttribute('src', whiteHeartIcon);
+      expect(ingredientLabels).toHaveLength(3);
+      expect(ingredientLabels[0]).toHaveTextContent('Ingredient 1');
+      expect(ingredientLabels[1]).toHaveTextContent('Ingredient 2');
+      expect(ingredientLabels[2]).toHaveTextContent('Ingredient 3');
     });
   });
-
   it('deve desabilitar o botão "Finish Recipe" quando nem todos os ingredientes estiverem marcados', async () => {
     jest.spyOn(global, 'fetch').mockResolvedValue({
       ok: true,
@@ -211,7 +101,144 @@ describe('Testando caminhos do usuário em <RecipeInProgress />', () => {
     render(<RecipeInProgress />, { wrapper: MemoryRouter });
 
     await waitFor(() => {
-      // requisito ainda não aprovado
+      const finishRecipeBtn = screen.getByTestId('finish-recipe-btn');
+      expect(finishRecipeBtn).toBeDisabled();
+
+      const ingredientStep1 = screen.getByTestId('0-ingredient-step');
+      userEvent.click(ingredientStep1);
+
+      expect(finishRecipeBtn).toBeDisabled();
+
+      const ingredientStep2 = screen.getByTestId('1-ingredient-step');
+      userEvent.click(ingredientStep2);
+
+      expect(finishRecipeBtn).toBeDisabled();
+
+      const ingredientStep3 = screen.getByTestId('2-ingredient-step');
+      userEvent.click(ingredientStep3);
+
+      expect(finishRecipeBtn).toBeEnabled();
+    });
+  });
+
+  it('deve adicionar e remover a receita dos favoritos corretamente quando o botão de favoritar é clicado', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals/52771/in-progress'] }>
+        <RecipeInProgress />
+      </MemoryRouter>,
+    );
+
+    await waitForElementToBeRemoved(() => screen.getByText(/wait... we are looking for your recipe./i));
+
+    const favoriteButton = screen.getByTestId('favorite-btn');
+    expect(favoriteButton).toHaveAttribute('src', 'whiteHeartIcon.svg');
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton).toHaveAttribute('src', 'blackHeartIcon.svg');
+
+    const favorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    expect(favorites).toHaveLength(1);
+    expect(favorites[0].id).toBe(recipeInProgressMock.idDrink
+      || recipeInProgressMock.idMeal);
+    expect(favorites[0].type).toBe('meal');
+
+    userEvent.click(favoriteButton);
+
+    expect(favoriteButton).toHaveAttribute('src', 'blackHeartIcon.svg');
+
+    const updatedFavorites = JSON.parse(localStorage.getItem('favoriteRecipes') || '[]');
+    expect(updatedFavorites).toHaveLength(2);
+  });
+
+  it('deve copiar o URL de compartilhamento para a área de transferência', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals/52771/in-progress'] }>
+        <RecipeInProgress />
+      </MemoryRouter>,
+    );
+
+    await waitForElementToBeRemoved(() => screen.getByText('wait... we are looking for your recipe.'));
+
+    const shareButton = screen.getByTestId('share-btn');
+    fireEvent.click(shareButton);
+
+    await waitFor(() => {
+      expect(screen.getByText('Link copied!')).toBeInTheDocument();
+    });
+  });
+  it('deve exibir a mensagem de espera quando não há receita carregada', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: false,
+    });
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals/123/in-progress'] }>
+        <RecipeInProgress />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText('wait... we are looking for your recipe.')).toBeInTheDocument();
+    });
+  });
+  it('deve exibir o componente corretamente ao buscar a receita', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(
+      <MemoryRouter initialEntries={ ['/meals/123/in-progress'] }>
+        <RecipeInProgress />
+      </MemoryRouter>,
+    );
+
+    await waitForElementToBeRemoved(() => screen.getByText(/wait... we are looking for your recipe./i));
+
+    expect(screen.getByText(recipeInProgressMock.strMeal)).toBeInTheDocument();
+    expect(screen.getByTestId('recipe-title').textContent).toBe(recipeInProgressMock.strMeal);
+    expect(screen.getByTestId('recipe-category').textContent).toBe(recipeInProgressMock.strCategory);
+    expect(screen.getByTestId('instructions').textContent).toBe(recipeInProgressMock.strInstructions);
+  });
+  it('deve habilitar e desabilitar o botão "Finish Recipe" corretamente ao marcar e desmarcar ingredientes', async () => {
+    jest.spyOn(global, 'fetch').mockResolvedValue({
+      ok: true,
+      json: async () => ({ meals: [recipeInProgressMock] }),
+    });
+
+    render(<RecipeInProgress />, { wrapper: MemoryRouter });
+
+    await waitFor(() => {
+      const finishRecipeBtn = screen.getByTestId('finish-recipe-btn');
+      expect(finishRecipeBtn).toBeDisabled();
+
+      const ingredientStep1 = screen.getByTestId('0-ingredient-step');
+      userEvent.click(ingredientStep1);
+
+      const ingredientStep2 = screen.getByTestId('1-ingredient-step');
+      userEvent.click(ingredientStep2);
+
+      const ingredientStep3 = screen.getByTestId('2-ingredient-step');
+      userEvent.click(ingredientStep3);
+
+      expect(finishRecipeBtn).toBeEnabled();
+
+      userEvent.click(ingredientStep1);
+      userEvent.click(ingredientStep2);
+      userEvent.click(ingredientStep3);
+
+      expect(finishRecipeBtn).toBeDisabled();
     });
   });
 });
